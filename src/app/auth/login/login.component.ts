@@ -36,7 +36,7 @@ export class LoginComponent {
       await this.authService.login(email, password);
       this.isLogin.set(false);
       this.errorMessage.set(null);
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/coast-guard']);
     } catch (error: any) {
       if (error.code === 'auth/user-not-found') {
         this.errorMessage.set('User not found');

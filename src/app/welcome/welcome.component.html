@@ -14,8 +14,8 @@
       <a routerLink="/auth/login" class="btn btn-outline-primary btn-lg">
         Login
       </a>
-      } @else {
-      <a routerLink="/dashboard" class="btn btn-primary btn-lg">Dashboard</a>
+      } @else if (user.role === 'coast-guard') {
+      <a routerLink="/coast-guard" class="btn btn-primary btn-lg">Home</a>
       }
     </div>
   </div>
