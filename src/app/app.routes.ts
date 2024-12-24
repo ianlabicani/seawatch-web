@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './auth/guards/auth/auth.guard';
+import { hasRoleGuard } from './shared/guards/has-role/has-role.guard';
 
 export const routes: Routes = [
   {
@@ -19,6 +21,7 @@ export const routes: Routes = [
   },
   {
     path: 'dashboard',
+    canActivate: [authGuard, hasRoleGuard('user')],
     loadComponent: () =>
       import('./coast-guard/coast-guard.component').then(
         (m) => m.CoastGuardComponent
