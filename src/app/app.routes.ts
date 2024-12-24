@@ -20,11 +20,13 @@ export const routes: Routes = [
     loadChildren: () => import('./auth/auth.routes').then((m) => m.routes),
   },
   {
-    path: 'dashboard',
-    canActivate: [authGuard, hasRoleGuard('user')],
+    path: 'coast-guard',
+    canActivate: [authGuard, hasRoleGuard('coast-guard')],
     loadComponent: () =>
       import('./coast-guard/coast-guard.component').then(
         (m) => m.CoastGuardComponent
       ),
+    loadChildren: () =>
+      import('./coast-guard/coast-guard.routes').then((m) => m.routes),
   },
 ];
