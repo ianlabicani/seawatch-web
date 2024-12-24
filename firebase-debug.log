@@ -26,3 +26,42 @@ Java HotSpot(TM) 64-Bit Server VM (build 17.0.12+8-LTS-286, mixed mode, sharing)
 [debug] [2024-12-24T15:09:43.069Z] Ignoring unsupported arg: single_project_mode_error {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: single_project_mode_error"}}
 [debug] [2024-12-24T15:09:43.069Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","C:\\Users\\Ian\\.cache\\firebase\\emulators\\cloud-firestore-emulator-v1.19.8.jar","--host","127.0.0.1","--port",8080,"--websocket_port",9150,"--project_id","seawatch-web","--rules","C:\\Users\\Ian\\Desktop\\PROJECTS\\seawatch-web\\firestore.rules","--single_project_mode",true],"optionalArgs":["port","webchannel_port","host","rules","websocket_port","functions_emulator","seed_from_export","project_id","single_project_mode"],"joinArgs":false,"shell":false,"port":8080} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\Ian\\\\.cache\\\\firebase\\\\emulators\\\\cloud-firestore-emulator-v1.19.8.jar\",\"--host\",\"127.0.0.1\",\"--port\",8080,\"--websocket_port\",9150,\"--project_id\",\"seawatch-web\",\"--rules\",\"C:\\\\Users\\\\Ian\\\\Desktop\\\\PROJECTS\\\\seawatch-web\\\\firestore.rules\",\"--single_project_mode\",true],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"websocket_port\",\"functions_emulator\",\"seed_from_export\",\"project_id\",\"single_project_mode\"],\"joinArgs\":false,\"shell\":false,\"port\":8080}"}}
 [info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
+[info] +  firestore: Firestore Emulator UI websocket is running on 9150. {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator UI websocket is running on 9150."}}
+[debug] [2024-12-24T15:09:48.382Z] Checked if tokens are valid: true, expires at: 1735056087628
+[debug] [2024-12-24T15:09:48.382Z] Checked if tokens are valid: true, expires at: 1735056087628
+[debug] [2024-12-24T15:09:48.383Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/seawatch-web/sites 
+[debug] [2024-12-24T15:09:50.147Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/seawatch-web/sites 200
+[debug] [2024-12-24T15:09:50.147Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/seawatch-web/sites {"sites":[{"name":"projects/seawatch-web/sites/seawatch-web","defaultUrl":"https://seawatch-web.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2024-12-24T15:09:50.148Z] Checked if tokens are valid: true, expires at: 1735056087628
+[debug] [2024-12-24T15:09:50.148Z] Checked if tokens are valid: true, expires at: 1735056087628
+[debug] [2024-12-24T15:09:50.148Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/seawatch-web/webApps/-/config [none]
+[debug] [2024-12-24T15:09:51.452Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/seawatch-web/webApps/-/config 200
+[debug] [2024-12-24T15:09:51.452Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/seawatch-web/webApps/-/config {"projectId":"seawatch-web","storageBucket":"seawatch-web.firebasestorage.app","apiKey":"AIzaSyCEstX6G_E9ijV32zbMcLpuBgUqyRlgito","authDomain":"seawatch-web.firebaseapp.com","messagingSenderId":"772755499356"}
+[debug] [2024-12-24T15:09:51.456Z] Checked if tokens are valid: true, expires at: 1735056087628
+[debug] [2024-12-24T15:09:51.456Z] Checked if tokens are valid: true, expires at: 1735056087628
+[debug] [2024-12-24T15:09:51.456Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/seawatch-web [none]
+[debug] [2024-12-24T15:09:51.822Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/seawatch-web 200
+[debug] [2024-12-24T15:09:51.823Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/seawatch-web {"projectId":"seawatch-web","projectNumber":"772755499356","displayName":"seawatch-web","name":"projects/seawatch-web","resources":{"hostingSite":"seawatch-web"},"state":"ACTIVE","etag":"1_97c7c328-dd26-4613-b6f6-eefbba6a28fc"}
+[info] i  hosting[seawatch-web]: Serving hosting files from: dist/seawatch-web {"metadata":{"emulator":{"name":"hosting"},"message":"Serving hosting files from: \u001b[1mdist/seawatch-web\u001b[22m"}}
+[info] +  hosting[seawatch-web]: Local server: http://127.0.0.1:5000 {"metadata":{"emulator":{"name":"hosting"},"message":"Local server: \u001b[4m\u001b[1mhttp://127.0.0.1:5000\u001b[22m\u001b[24m"}}
+[debug] [2024-12-24T15:09:52.039Z] Could not find VSCode notification endpoint: FetchError: request to http://localhost:40001/vscode/notify failed, reason: . If you are not running the Firebase Data Connect VSCode extension, this is expected and not an issue.
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://127.0.0.1:4000/               │
+└─────────────────────────────────────────────────────────────┘
+
+┌────────────────┬────────────────┬─────────────────────────────────┐
+│ Emulator       │ Host:Port      │ View in Emulator UI             │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Authentication │ 127.0.0.1:9099 │ http://127.0.0.1:4000/auth      │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Firestore      │ 127.0.0.1:8080 │ http://127.0.0.1:4000/firestore │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Hosting        │ 127.0.0.1:5000 │ n/a                             │
+└────────────────┴────────────────┴─────────────────────────────────┘
+  Emulator Hub running at 127.0.0.1:4400
+  Other reserved ports: 4500, 9150
+
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 
