@@ -15,14 +15,14 @@ export class ForgotPasswordComponent {
     email: ['', [Validators.required, Validators.email]],
   });
 
-  isLogin = signal(false);
+  isSubmit = signal(false);
 
   async onSubmit() {
     if (this.formGroup.invalid) {
       this.formGroup.markAllAsTouched();
       return;
     }
-    this.isLogin.set(true);
+    this.isSubmit.set(true);
 
     try {
       // console.log(this.formGroup.value);
