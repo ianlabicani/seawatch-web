@@ -3,6 +3,7 @@ import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
 import { doc, Firestore, getDoc } from '@angular/fire/firestore';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -12,8 +13,7 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class LoginComponent {
   private fb = inject(FormBuilder);
-  private auth = inject(Auth);
-  private firestore = inject(Firestore);
+  private authService = inject(AuthService);
   private router = inject(Router);
 
   formGroup = this.fb.nonNullable.group({
@@ -33,14 +33,7 @@ export class LoginComponent {
 
     try {
       const { email, password } = this.formGroup.getRawValue();
-      const { user } = await signInWithEmailAndPassword(
-        this.auth,
-        email,
-        password
-      );
-
-      const userData = getDoc(doc(this.firestore, 'users', user.uid));
-      localStorage.setItem('user', JSON.stringify(userData));
+      await this.authService.login(email, password);
       this.isLogin.set(false);
       this.errorMessage.set(null);
       this.router.navigate(['/dashboard']);
