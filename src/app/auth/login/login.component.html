@@ -70,16 +70,16 @@
           } @else { Login }
         </button>
       </form>
+      @let errorMesssageData = errorMessage(); @if (errorMesssageData) {
+      <div class="alert alert-danger mt-3 text-center" role="alert">
+        {{ errorMesssageData }}
+      </div>
+      }
+
       <div class="text-center mt-3">
         <a routerLink="../forgot-password" class="text-muted"
           >Forgot password?</a
         >
-      </div>
-      <div class="text-center mt-2">
-        <p class="mb-0">
-          Don't have an account?
-          <a routerLink="../signup" class="text-primary">Sign up</a>
-        </p>
       </div>
     </div>
   </div>

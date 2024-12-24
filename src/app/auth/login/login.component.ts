@@ -1,6 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
+import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { doc, Firestore, getDoc } from '@angular/fire/firestore';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,6 +12,9 @@ import { RouterLink } from '@angular/router';
 })
 export class LoginComponent {
   private fb = inject(FormBuilder);
+  private auth = inject(Auth);
+  private firestore = inject(Firestore);
+  private router = inject(Router);
 
   formGroup = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -17,6 +22,7 @@ export class LoginComponent {
   });
 
   isLogin = signal(false);
+  errorMessage = signal<string | null>(null);
 
   async onSubmit() {
     if (this.formGroup.invalid) {
@@ -26,7 +32,30 @@ export class LoginComponent {
     this.isLogin.set(true);
 
     try {
-      // console.log(this.formGroup.value);
-    } catch (error) {}
+      const { email, password } = this.formGroup.getRawValue();
+      const { user } = await signInWithEmailAndPassword(
+        this.auth,
+        email,
+        password
+      );
+
+      const userData = getDoc(doc(this.firestore, 'users', user.uid));
+      localStorage.setItem('user', JSON.stringify(userData));
+      this.isLogin.set(false);
+      this.errorMessage.set(null);
+      this.router.navigate(['/dashboard']);
+    } catch (error: any) {
+      if (error.code === 'auth/user-not-found') {
+        this.errorMessage.set('User not found');
+        this.formGroup.controls.password.reset();
+      } else if (error.code === 'auth/wrong-password') {
+        this.errorMessage.set('Wrong password');
+        this.formGroup.controls.password.reset();
+      } else {
+        this.errorMessage.set('An error occurred');
+      }
+      this.isLogin.set(false);
+      console.error(error);
+    }
   }
 }
