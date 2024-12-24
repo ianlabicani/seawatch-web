@@ -12,11 +12,34 @@
         alt="Seawatch Logo"
         class="w-50 mx-auto d-block mb-2"
       />
-      <h3>Welcome Back</h3>
-      <p class="mb-0">Please login to your account</p>
+      <h3>Welcome to Seawatch</h3>
+      <p class="mb-0">Get started by creating your account!</p>
     </div>
     <div class="card-body p-4">
       <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+        <!-- username -->
+        <div class="form-group mb-3">
+          @let username = formGroup.controls.username;
+          <label for="username" class="form-label">Username</label>
+          <input
+            [formControl]="username"
+            type="username"
+            class="form-control"
+            id="username"
+            placeholder="Enter your username"
+          />
+          @if (username.invalid && (username.touched || username.dirty)) {
+          <div class="text-danger mt-1">
+            @if (username.hasError('required')) {
+            <small> Username is required. </small>
+            } @else if (username.hasError('minlength')) {
+            <small> Username must be at least 3 characters long. </small>
+            }
+          </div>
+
+          }
+        </div>
+        <!-- email -->
         <div class="form-group mb-3">
           @let email = formGroup.controls.email;
           <label for="email" class="form-label">Email Address</label>
@@ -38,6 +61,7 @@
 
           }
         </div>
+        <!-- password -->
         <div class="form-group mb-4">
           @let password = formGroup.controls.password;
           <label for="password" class="form-label">Password</label>
@@ -68,13 +92,10 @@
           } @else { Login }
         </button>
       </form>
-      <div class="text-center mt-3">
-        <a href="#" class="text-muted">Forgot password?</a>
-      </div>
       <div class="text-center mt-2">
         <p class="mb-0">
-          Don't have an account?
-          <a routerLink="../signup" class="text-primary">Sign up</a>
+          Already have an account?
+          <a routerLink="../login" class="text-primary">Login</a>
         </p>
       </div>
     </div>
