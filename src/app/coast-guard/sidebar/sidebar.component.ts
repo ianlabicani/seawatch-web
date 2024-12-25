@@ -14,6 +14,6 @@ export class SidebarComponent {
 
   async logout() {
     await this.authService.logout();
-    this.router.navigate(['/welcome']);
+    this.router.navigate(['/']);
   }
 }
