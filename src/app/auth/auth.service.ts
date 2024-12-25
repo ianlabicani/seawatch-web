@@ -3,9 +3,19 @@ import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
 import { getDoc, doc, Firestore } from '@angular/fire/firestore';
 
 export interface IUserAuth {
-  uid: string;
+  id: string;
+  username: string;
+  firstname: string;
+  lastname: string;
   email: string;
   role: string;
+  profilePictureUrl?: string;
+  phoneNumber?: string;
+  address?: string;
+  isActive: boolean;
+  lastLogin?: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 @Injectable({
