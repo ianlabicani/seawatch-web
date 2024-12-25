@@ -1,0 +1,61 @@
+@let userData = userSig(); @if (!userData) {
+<!-- Skeleton Placeholder -->
+<div class="container mt-5">
+  <h2 class="mb-4">User Data</h2>
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <div class="placeholder-glow">
+        <span class="placeholder col-12"></span>
+      </div>
+    </div>
+    <div class="col-md-6 mb-3">
+      <div class="placeholder-glow">
+        <span class="placeholder col-12"></span>
+      </div>
+    </div>
+    <div class="col-md-6 mb-3">
+      <div class="placeholder-glow">
+        <span class="placeholder col-12"></span>
+      </div>
+    </div>
+    <div class="col-md-6 mb-3">
+      <div class="placeholder-glow">
+        <span class="placeholder col-12"></span>
+      </div>
+    </div>
+  </div>
+</div>
+} @else {
+<!-- Render User Data -->
+<div class="container mt-5">
+  <h2 class="mb-4">User Details</h2>
+  <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <th scope="row">ID</th>
+        <td>{{ userData.id }}</td>
+      </tr>
+      <tr>
+        <th scope="row">Username</th>
+        <td>{{ userData.username }}</td>
+      </tr>
+      <tr>
+        <th scope="row">First Name</th>
+        <td>{{ userData.firstname }}</td>
+      </tr>
+      <tr>
+        <th scope="row">Last Name</th>
+        <td>{{ userData.lastname }}</td>
+      </tr>
+      <tr>
+        <th scope="row">Email</th>
+        <td>{{ userData.email }}</td>
+      </tr>
+      <tr>
+        <th scope="row">Role</th>
+        <td>{{ userData.role }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+}

@@ -1,0 +1,67 @@
+@let usersData = usersSignal();
+
+<div class="container mt-5">
+  <h2 class="mb-4">User List</h2>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Role</th>
+        <th scope="col">Status</th>
+        <th scope="col"><p class="text-center mb-0">Actions</p></th>
+        <!-- New Actions Column -->
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Loop through users -->
+      @for (user of usersData | paginate : { itemsPerPage, currentPage }; track
+      $index) {
+      <tr>
+        <th scope="row">{{ $index + 1 }}</th>
+        <td>{{ user.firstname }}</td>
+        <td>{{ user.lastname }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td>{{ user.isActive ? "Active" : "Inactive" }}</td>
+        <!-- Add a new column with actions -->
+        <td>
+          <div class="d-flex justify-content-around">
+            <!-- Action Link for Viewing User -->
+            <a
+              routerLink="{{ user.id }}"
+              class="btn btn-info btn-sm text-white"
+            >
+              View
+            </a>
+            <!-- Action Link for Editing User -->
+            <a
+              routerLink="edit/{{ user.id }}"
+              class="btn btn-warning btn-sm text-white mx-2"
+            >
+              Edit
+            </a>
+          </div>
+        </td>
+      </tr>
+      } @empty {
+      <tr>
+        <td colspan="7" class="text-center">
+          <div class="alert alert-warning fs-3" role="alert">
+            No user records.
+          </div>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+
+  <!-- Pagination Controls -->
+  <div class="pagination-container d-flex justify-content-end">
+    <pagination-controls
+      (pageChange)="currentPage = $event"
+    ></pagination-controls>
+  </div>
+</div>
