@@ -1,50 +1,58 @@
-[debug] [2024-12-24T15:09:42.841Z] ----------------------------------------------------------------------
-[debug] [2024-12-24T15:09:42.843Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Ian\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start --export-on-exit data
-[debug] [2024-12-24T15:09:42.843Z] CLI Version:   13.28.0
-[debug] [2024-12-24T15:09:42.843Z] Platform:      win32
-[debug] [2024-12-24T15:09:42.843Z] Node Version:  v22.11.0
-[debug] [2024-12-24T15:09:42.843Z] Time:          Tue Dec 24 2024 23:09:42 GMT+0800 (Singapore Standard Time)
-[debug] [2024-12-24T15:09:42.843Z] ----------------------------------------------------------------------
+[debug] [2024-12-25T01:32:53.831Z] ----------------------------------------------------------------------
+[debug] [2024-12-25T01:32:53.833Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Ian\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start --import data
+[debug] [2024-12-25T01:32:53.833Z] CLI Version:   13.28.0
+[debug] [2024-12-25T01:32:53.833Z] Platform:      win32
+[debug] [2024-12-25T01:32:53.833Z] Node Version:  v22.11.0
+[debug] [2024-12-25T01:32:53.834Z] Time:          Wed Dec 25 2024 09:32:53 GMT+0800 (Singapore Standard Time)
+[debug] [2024-12-25T01:32:53.834Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2024-12-24T15:09:42.897Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2024-12-24T15:09:42.897Z] > authorizing via signed-in user (labicaniian@gmail.com)
-[debug] [2024-12-24T15:09:43.033Z] java version "17.0.12" 2024-07-16 LTS
+[debug] [2024-12-25T01:32:53.902Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-12-25T01:32:53.902Z] > authorizing via signed-in user (labicaniian@gmail.com)
+[debug] [2024-12-25T01:32:54.028Z] java version "17.0.12" 2024-07-16 LTS
 
-[debug] [2024-12-24T15:09:43.033Z] Java(TM) SE Runtime Environment (build 17.0.12+8-LTS-286)
+[debug] [2024-12-25T01:32:54.029Z] Java(TM) SE Runtime Environment (build 17.0.12+8-LTS-286)
 Java HotSpot(TM) 64-Bit Server VM (build 17.0.12+8-LTS-286, mixed mode, sharing)
 
-[debug] [2024-12-24T15:09:43.048Z] Parsed Java major version: 17
+[debug] [2024-12-25T01:32:54.056Z] Parsed Java major version: 17
 [info] i  emulators: Starting emulators: auth, firestore, hosting {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, firestore, hosting"}}
-[debug] [2024-12-24T15:09:43.061Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2024-12-24T15:09:43.061Z] [auth] Authentication Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2024-12-24T15:09:43.061Z] [firestore] Firestore Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2024-12-24T15:09:43.061Z] [firestore.websocket] websocket server for firestore only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2024-12-24T15:09:43.061Z] [hosting] Hosting Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2024-12-24T15:09:43.061Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8080}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"hosting":[{"address":"127.0.0.1","family":"IPv4","port":5000}]},"metadata":{"message":"assigned listening specs for emulators"}}
-[debug] [2024-12-24T15:09:43.063Z] [hub] writing locator at C:\Users\Ian\AppData\Local\Temp\hub-seawatch-web.json
-[debug] [2024-12-24T15:09:43.069Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
-[debug] [2024-12-24T15:09:43.069Z] Ignoring unsupported arg: single_project_mode_error {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: single_project_mode_error"}}
-[debug] [2024-12-24T15:09:43.069Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","C:\\Users\\Ian\\.cache\\firebase\\emulators\\cloud-firestore-emulator-v1.19.8.jar","--host","127.0.0.1","--port",8080,"--websocket_port",9150,"--project_id","seawatch-web","--rules","C:\\Users\\Ian\\Desktop\\PROJECTS\\seawatch-web\\firestore.rules","--single_project_mode",true],"optionalArgs":["port","webchannel_port","host","rules","websocket_port","functions_emulator","seed_from_export","project_id","single_project_mode"],"joinArgs":false,"shell":false,"port":8080} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\Ian\\\\.cache\\\\firebase\\\\emulators\\\\cloud-firestore-emulator-v1.19.8.jar\",\"--host\",\"127.0.0.1\",\"--port\",8080,\"--websocket_port\",9150,\"--project_id\",\"seawatch-web\",\"--rules\",\"C:\\\\Users\\\\Ian\\\\Desktop\\\\PROJECTS\\\\seawatch-web\\\\firestore.rules\",\"--single_project_mode\",true],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"websocket_port\",\"functions_emulator\",\"seed_from_export\",\"project_id\",\"single_project_mode\"],\"joinArgs\":false,\"shell\":false,\"port\":8080}"}}
+[debug] [2024-12-25T01:32:54.069Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2024-12-25T01:32:54.069Z] [auth] Authentication Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2024-12-25T01:32:54.069Z] [firestore] Firestore Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2024-12-25T01:32:54.069Z] [firestore.websocket] websocket server for firestore only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2024-12-25T01:32:54.070Z] [hosting] Hosting Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2024-12-25T01:32:54.070Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8080}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"hosting":[{"address":"127.0.0.1","family":"IPv4","port":5000}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2024-12-25T01:32:54.072Z] [hub] writing locator at C:\Users\Ian\AppData\Local\Temp\hub-seawatch-web.json
+[info] i  firestore: Importing data from C:\Users\Ian\Desktop\PROJECTS\seawatch-web\data\firestore_export\firestore_export.overall_export_metadata {"metadata":{"emulator":{"name":"firestore"},"message":"Importing data from C:\\Users\\Ian\\Desktop\\PROJECTS\\seawatch-web\\data\\firestore_export\\firestore_export.overall_export_metadata"}}
+[debug] [2024-12-25T01:32:54.079Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2024-12-25T01:32:54.079Z] Ignoring unsupported arg: single_project_mode_error {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: single_project_mode_error"}}
+[debug] [2024-12-25T01:32:54.080Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","C:\\Users\\Ian\\.cache\\firebase\\emulators\\cloud-firestore-emulator-v1.19.8.jar","--host","127.0.0.1","--port",8080,"--websocket_port",9150,"--project_id","seawatch-web","--seed_from_export","C:\\Users\\Ian\\Desktop\\PROJECTS\\seawatch-web\\data\\firestore_export\\firestore_export.overall_export_metadata","--rules","C:\\Users\\Ian\\Desktop\\PROJECTS\\seawatch-web\\firestore.rules","--single_project_mode",true],"optionalArgs":["port","webchannel_port","host","rules","websocket_port","functions_emulator","seed_from_export","project_id","single_project_mode"],"joinArgs":false,"shell":false,"port":8080} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\Ian\\\\.cache\\\\firebase\\\\emulators\\\\cloud-firestore-emulator-v1.19.8.jar\",\"--host\",\"127.0.0.1\",\"--port\",8080,\"--websocket_port\",9150,\"--project_id\",\"seawatch-web\",\"--seed_from_export\",\"C:\\\\Users\\\\Ian\\\\Desktop\\\\PROJECTS\\\\seawatch-web\\\\data\\\\firestore_export\\\\firestore_export.overall_export_metadata\",\"--rules\",\"C:\\\\Users\\\\Ian\\\\Desktop\\\\PROJECTS\\\\seawatch-web\\\\firestore.rules\",\"--single_project_mode\",true],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"websocket_port\",\"functions_emulator\",\"seed_from_export\",\"project_id\",\"single_project_mode\"],\"joinArgs\":false,\"shell\":false,\"port\":8080}"}}
 [info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
 [info] +  firestore: Firestore Emulator UI websocket is running on 9150. {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator UI websocket is running on 9150."}}
-[debug] [2024-12-24T15:09:48.382Z] Checked if tokens are valid: true, expires at: 1735056087628
-[debug] [2024-12-24T15:09:48.382Z] Checked if tokens are valid: true, expires at: 1735056087628
-[debug] [2024-12-24T15:09:48.383Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/seawatch-web/sites 
-[debug] [2024-12-24T15:09:50.147Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/seawatch-web/sites 200
-[debug] [2024-12-24T15:09:50.147Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/seawatch-web/sites {"sites":[{"name":"projects/seawatch-web/sites/seawatch-web","defaultUrl":"https://seawatch-web.web.app","type":"DEFAULT_SITE"}]}
-[debug] [2024-12-24T15:09:50.148Z] Checked if tokens are valid: true, expires at: 1735056087628
-[debug] [2024-12-24T15:09:50.148Z] Checked if tokens are valid: true, expires at: 1735056087628
-[debug] [2024-12-24T15:09:50.148Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/seawatch-web/webApps/-/config [none]
-[debug] [2024-12-24T15:09:51.452Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/seawatch-web/webApps/-/config 200
-[debug] [2024-12-24T15:09:51.452Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/seawatch-web/webApps/-/config {"projectId":"seawatch-web","storageBucket":"seawatch-web.firebasestorage.app","apiKey":"AIzaSyCEstX6G_E9ijV32zbMcLpuBgUqyRlgito","authDomain":"seawatch-web.firebaseapp.com","messagingSenderId":"772755499356"}
-[debug] [2024-12-24T15:09:51.456Z] Checked if tokens are valid: true, expires at: 1735056087628
-[debug] [2024-12-24T15:09:51.456Z] Checked if tokens are valid: true, expires at: 1735056087628
-[debug] [2024-12-24T15:09:51.456Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/seawatch-web [none]
-[debug] [2024-12-24T15:09:51.822Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/seawatch-web 200
-[debug] [2024-12-24T15:09:51.823Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/seawatch-web {"projectId":"seawatch-web","projectNumber":"772755499356","displayName":"seawatch-web","name":"projects/seawatch-web","resources":{"hostingSite":"seawatch-web"},"state":"ACTIVE","etag":"1_97c7c328-dd26-4613-b6f6-eefbba6a28fc"}
+[info] i  auth: Importing config from C:\Users\Ian\Desktop\PROJECTS\seawatch-web\data\auth_export\config.json {"metadata":{"emulator":{"name":"auth"},"message":"Importing config from C:\\Users\\Ian\\Desktop\\PROJECTS\\seawatch-web\\data\\auth_export\\config.json"}}
+[info] i  auth: Importing accounts from C:\Users\Ian\Desktop\PROJECTS\seawatch-web\data\auth_export\accounts.json {"metadata":{"emulator":{"name":"auth"},"message":"Importing accounts from C:\\Users\\Ian\\Desktop\\PROJECTS\\seawatch-web\\data\\auth_export\\accounts.json"}}
+[debug] [2024-12-25T01:33:00.265Z] Checked if tokens are valid: false, expires at: 1735056087628
+[debug] [2024-12-25T01:33:00.266Z] Checked if tokens are valid: false, expires at: 1735056087628
+[debug] [2024-12-25T01:33:00.266Z] > refreshing access token with scopes: []
+[debug] [2024-12-25T01:33:00.267Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2024-12-25T01:33:00.267Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-12-25T01:33:01.551Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2024-12-25T01:33:01.551Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-12-25T01:33:01.566Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/seawatch-web/sites 
+[debug] [2024-12-25T01:33:03.045Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/seawatch-web/sites 200
+[debug] [2024-12-25T01:33:03.046Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/seawatch-web/sites {"sites":[{"name":"projects/seawatch-web/sites/seawatch-web","defaultUrl":"https://seawatch-web.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2024-12-25T01:33:03.046Z] Checked if tokens are valid: true, expires at: 1735093980551
+[debug] [2024-12-25T01:33:03.046Z] Checked if tokens are valid: true, expires at: 1735093980551
+[debug] [2024-12-25T01:33:03.046Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/seawatch-web/webApps/-/config [none]
+[debug] [2024-12-25T01:33:04.093Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/seawatch-web/webApps/-/config 200
+[debug] [2024-12-25T01:33:04.094Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/seawatch-web/webApps/-/config {"projectId":"seawatch-web","appId":"1:772755499356:web:7decfd4434f5bd1b3db999","storageBucket":"seawatch-web.firebasestorage.app","apiKey":"AIzaSyCEstX6G_E9ijV32zbMcLpuBgUqyRlgito","authDomain":"seawatch-web.firebaseapp.com","messagingSenderId":"772755499356","measurementId":"G-GEEQE94NK1"}
+[debug] [2024-12-25T01:33:04.098Z] Checked if tokens are valid: true, expires at: 1735093980551
+[debug] [2024-12-25T01:33:04.099Z] Checked if tokens are valid: true, expires at: 1735093980551
+[debug] [2024-12-25T01:33:04.099Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/seawatch-web [none]
+[debug] [2024-12-25T01:33:04.413Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/seawatch-web 200
+[debug] [2024-12-25T01:33:04.413Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/seawatch-web {"projectId":"seawatch-web","projectNumber":"772755499356","displayName":"seawatch-web","name":"projects/seawatch-web","resources":{"hostingSite":"seawatch-web"},"state":"ACTIVE","etag":"1_b0d1ce58-a0ff-4e16-9f49-2bbc5fdc08a0"}
 [info] i  hosting[seawatch-web]: Serving hosting files from: dist/seawatch-web {"metadata":{"emulator":{"name":"hosting"},"message":"Serving hosting files from: \u001b[1mdist/seawatch-web\u001b[22m"}}
 [info] +  hosting[seawatch-web]: Local server: http://127.0.0.1:5000 {"metadata":{"emulator":{"name":"hosting"},"message":"Local server: \u001b[4m\u001b[1mhttp://127.0.0.1:5000\u001b[22m\u001b[24m"}}
-[debug] [2024-12-24T15:09:52.039Z] Could not find VSCode notification endpoint: FetchError: request to http://localhost:40001/vscode/notify failed, reason: . If you are not running the Firebase Data Connect VSCode extension, this is expected and not an issue.
+[debug] [2024-12-25T01:33:04.502Z] Could not find VSCode notification endpoint: FetchError: request to http://localhost:40001/vscode/notify failed, reason: . If you are not running the Firebase Data Connect VSCode extension, this is expected and not an issue.
 [info] 
 ┌─────────────────────────────────────────────────────────────┐
 │ ✔  All emulators ready! It is now safe to connect your app. │
