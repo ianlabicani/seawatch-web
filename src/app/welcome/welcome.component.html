@@ -1,22 +1,237 @@
-<div class="container d-flex justify-content-center align-items-center vh-100">
-  <div class="welcome-card p-5 text-center">
-    <img
-      src="logos/seawatch-removebg.png"
-      alt="Seawatch Logo"
-      class="w-50 mb-4 mx-auto d-block"
-    />
-    <h1 class="display-4">Welcome to Seawatch</h1>
-    <p class="lead text-muted mb-4">
-      Your trusted partner in maritime monitoring and safety.
-    </p>
-    <div class="d-grid gap-2 col-6 mx-auto">
-      @if (!user.role) {
-      <a routerLink="/auth/login" class="btn btn-outline-primary btn-lg">
-        Login
+<div class="container">
+  <!-- Top Navigation Bar -->
+  <nav
+    class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm"
+  >
+    <div class="container">
+      <a class="navbar-brand fs-3 d-flex align-items-center gap-1" href="#home">
+        <img
+          src="logos/seawatch-removebg.png"
+          alt="Seawatch Logo"
+          height="40px"
+        />
+        <span> Seawatch </span>
       </a>
-      } @else if (user.role === 'coast-guard') {
-      <a routerLink="/coast-guard" class="btn btn-primary btn-lg">Home</a>
-      }
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#home">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#features">Features</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contact">Contact</a>
+          </li>
+          <li class="nav-item ms-3">
+            @if (!user.role) {
+            <a routerLink="/auth/login" class="btn btn-outline-primary">
+              Login
+            </a>
+            } @else if (user.role === 'coast-guard') {
+            <a routerLink="/coast-guard" class="btn btn-primary">Dashboard</a>
+            }
+          </li>
+        </ul>
+      </div>
     </div>
+  </nav>
+
+  <div
+    id="home"
+    class="d-flex flex-column justify-content-center align-items-center my-5"
+  >
+    <!-- Welcome Card -->
+    <div
+      class="welcome-card p-5 text-center bg-white shadow-lg rounded mb-5 w-100"
+    >
+      <img
+        src="logos/seawatch-removebg.png"
+        alt="Seawatch Logo"
+        class="w-25 mb-4 mx-auto d-block"
+      />
+      <h1 class="display-4 text-primary fw-bold">Welcome to Seawatch</h1>
+      <p class="lead text-muted mb-4">
+        Your trusted partner in maritime monitoring and safety.
+      </p>
+      <div class="d-grid gap-2 col-6 mx-auto">
+        @if (!user.role) {
+        <a
+          routerLink="/auth/login"
+          class="btn btn-outline-primary btn-lg fw-bold"
+        >
+          Login
+        </a>
+        } @else if (user.role === 'coast-guard') {
+        <a routerLink="/coast-guard" class="btn btn-primary btn-lg fw-bold"
+          >Dashboard</a
+        >
+        }
+      </div>
+    </div>
+
+    <!-- Tech Logos Section -->
+    <div class="tech-logos text-center mt-5 w-100">
+      <h3 class="text-primary fw-bold">Technologies Used</h3>
+      <div
+        class="d-flex justify-content-center gap-4 mt-4 align-items-center w-100"
+      >
+        <!-- Angular Logo -->
+        <div class="card border-0">
+          <img src="logos/angular.jpg" alt="Angular Logo" class="img-fluid" />
+        </div>
+        <!-- Bootstrap Logo -->
+        <div class="card border-0">
+          <img
+            src="logos/bootstrap.png"
+            alt="Bootstrap Logo"
+            class="img-fluid"
+          />
+        </div>
+        <!-- Firebase Logo -->
+        <div class="card border-0">
+          <img src="logos/firebase.png" alt="Firebase Logo" class="img-fluid" />
+        </div>
+        <!-- Other Tech Logo (example) -->
+        <div class="card border-0">
+          <img
+            src="logos/maptiler.png"
+            alt="Other Tech Logo"
+            class="img-fluid"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- About Us Section -->
+    <div id="about" class="about-us text-center mt-5">
+      <h2 class="text-primary fw-bold">About Seawatch</h2>
+      <p class="text-muted fs-5 mt-3">
+        Seawatch is a cutting-edge maritime monitoring system designed to
+        safeguard lives at sea. From real-time vessel tracking to alert
+        management, we empower coast guards and maritime authorities with the
+        tools they need to respond effectively to emergencies.
+      </p>
+    </div>
+
+    <!-- Features Section -->
+    <div id="features" class="features mt-5">
+      <h2 class="text-primary text-center fw-bold">Features</h2>
+      <div class="row mt-4 gx-4 gy-4">
+        <!-- Feature 1 -->
+        <div class="col-md-4">
+          <div class="card shadow h-100 feature-card">
+            <div class="image-wrapper">
+              <img
+                src="images/real-time-tracking.png"
+                class="card-img-top"
+                alt="Real-Time Tracking"
+              />
+            </div>
+            <div class="card-body text-center">
+              <div class="feature-icon mb-3">
+                <i
+                  class="bi bi-geo-alt-fill text-primary"
+                  style="font-size: 3rem"
+                ></i>
+              </div>
+              <h5 class="card-title fw-bold">Real-Time Tracking</h5>
+              <p class="card-text text-muted">
+                Track vessels in real-time with GPS accuracy, ensuring safety at
+                sea.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="col-md-4">
+          <div class="card shadow h-100 feature-card">
+            <div class="image-wrapper">
+              <img
+                src="images/alerts-notifications.png"
+                class="card-img-top"
+                alt="Alerts and Notifications"
+              />
+            </div>
+            <div class="card-body text-center">
+              <div class="feature-icon mb-3">
+                <i
+                  class="bi bi-bell-fill text-danger"
+                  style="font-size: 3rem"
+                ></i>
+              </div>
+              <h5 class="card-title fw-bold">Alerts and Notifications</h5>
+              <p class="card-text text-muted">
+                Get instant alerts for emergencies, boundary breaches, or
+                potential risks.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="col-md-4">
+          <div class="card shadow h-100 feature-card">
+            <div class="image-wrapper">
+              <img
+                src="images/maritime-safety.png"
+                class="card-img-top"
+                alt="Maritime Safety"
+              />
+            </div>
+            <div class="card-body text-center">
+              <div class="feature-icon mb-3">
+                <i
+                  class="bi bi-shield-fill text-success"
+                  style="font-size: 3rem"
+                ></i>
+              </div>
+              <h5 class="card-title fw-bold">Maritime Safety</h5>
+              <p class="card-text text-muted">
+                Enhance maritime safety with data-driven insights and timely
+                responses.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div id="contact" class="contact-section text-center mt-5">
+      <h2 class="text-primary fw-bold">Contact Us</h2>
+      <p class="text-muted fs-5 mt-3">
+        Have questions or need support? Reach out to us anytime.
+      </p>
+      <p class="fs-5">
+        <strong>Email:</strong>
+        <a href="mailto:support@seawatch.com" class="text-primary"
+          >support&#64;seawatch.com</a
+        >
+        <br />
+        <strong>Phone:</strong>
+        <a href="tel:+1234567890" class="text-primary">+123 456 7890</a>
+      </p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center mt-5">
+      <p class="text-muted">© 2024 Seawatch. All Rights Reserved.</p>
+    </footer>
   </div>
 </div>

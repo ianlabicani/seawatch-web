@@ -1,0 +1,39 @@
+.feature-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Image container to ensure consistent sizing */
+.image-wrapper {
+  height: 300px; /* Adjust height as needed */
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px 10px 0 0; /* Rounded corners on top */
+  background-color: #f8f9fa; /* Optional background for consistency */
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Ensures the image is cropped appropriately */
+}
+
+/* Add hover effect for interactivity */
+.card:hover {
+  transform: translateY(-5px);
+  transition: 0.3s ease-in-out;
+}
+
+.welcome-card {
+  margin-top: 2rem;
+}
+
+#home,
+#about,
+#features,
+#contact {
+  scroll-margin-top: 70px; /* Adjust this value to match the height of your navbar */
+}
