@@ -14,28 +14,38 @@
     <thead class="table-dark">
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Name</th>
+        <th scope="col">Username</th>
         <th scope="col">Description</th>
         <th scope="col">Location</th>
         <th scope="col">Date</th>
       </tr>
     </thead>
     <tbody>
-      @for (tracking of trackingsData; track $index) {
+      @for (tracking of trackingsData | paginate: { itemsPerPage, currentPage };
+      track $index) {
 
       <tr>
         <th scope="row">{{ $index + 1 }}</th>
-        <td>{{ tracking.name }}</td>
+        <td>{{ tracking.username }}</td>
         <td>{{ tracking.description }}</td>
         <td>{{ tracking.location }}</td>
         <td>{{ tracking.date }}</td>
+      </tr>
+      } @empty {
+      <tr>
+        <td colspan="7" class="text-center">
+          <div class="alert alert-warning fs-3" role="alert">
+            No user records.
+          </div>
+        </td>
       </tr>
       }
     </tbody>
   </table>
 
-  <!-- Show a message if no data is available -->
-  @if (trackingsData.length === 0) {
-  <div class="alert alert-warning" role="alert">No trackings available.</div>
-  }
+  <div class="pagination-container d-flex justify-content-end">
+    <pagination-controls
+      (pageChange)="itemsPerPage = $event"
+    ></pagination-controls>
+  </div>
 </div>
