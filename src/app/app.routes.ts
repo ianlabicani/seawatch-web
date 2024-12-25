@@ -6,11 +6,6 @@ import { unauthGuard } from './auth/guards/unauth.guard';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'welcome',
-    pathMatch: 'full',
-  },
-  {
-    path: 'welcome',
     loadComponent: () =>
       import('./welcome/welcome.component').then((m) => m.WelcomeComponent),
   },
