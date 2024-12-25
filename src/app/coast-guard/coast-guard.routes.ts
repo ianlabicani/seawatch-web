@@ -20,4 +20,8 @@ export const routes: Routes = [
         (m) => m.TrackingsComponent
       ),
   },
+  {
+    path: 'users',
+    loadChildren: () => import('./users/users.routes').then((m) => m.routes),
+  },
 ];
