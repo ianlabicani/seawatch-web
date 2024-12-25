@@ -1,0 +1,41 @@
+@let trackingsData = trackingsSignal();
+
+<div class="container mt-4">
+  <h2>Trackings</h2>
+
+  <!-- Optional: Add a sorting button -->
+  <div class="d-flex justify-content-between mb-3">
+    <p class="text-muted">
+      Displaying {{ trackingsData.length }} tracking records.
+    </p>
+  </div>
+
+  <table class="table table-hover table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Location</th>
+        <th scope="col">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (tracking of trackingsData; track $index) {
+
+      <tr>
+        <th scope="row">{{ $index + 1 }}</th>
+        <td>{{ tracking.name }}</td>
+        <td>{{ tracking.description }}</td>
+        <td>{{ tracking.location }}</td>
+        <td>{{ tracking.date }}</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+
+  <!-- Show a message if no data is available -->
+  @if (trackingsData.length === 0) {
+  <div class="alert alert-warning" role="alert">No trackings available.</div>
+  }
+</div>

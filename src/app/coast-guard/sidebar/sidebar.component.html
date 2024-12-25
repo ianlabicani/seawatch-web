@@ -14,22 +14,18 @@
   <hr />
   <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item">
-      <a routerLink="dashboard" class="nav-link active" aria-current="page">
+      <a
+        routerLink="dashboard"
+        class="nav-link"
+        routerLinkActive="active"
+        aria-current="page"
+      >
         <i class="bi bi-house-door me-2"></i> Dashboard
       </a>
     </li>
     <li>
-      <a href="#" class="nav-link"> <i class="bi bi-boat me-2"></i> Boats </a>
-    </li>
-    <li>
-      <a href="#" class="nav-link"> <i class="bi bi-geo me-2"></i> Tracking </a>
-    </li>
-    <li>
-      <a href="#" class="nav-link"> <i class="bi bi-bell me-2"></i> Alerts </a>
-    </li>
-    <li>
-      <a href="#" class="nav-link">
-        <i class="bi bi-person me-2"></i> Profile
+      <a routerLink="trackings" routerLinkActive="active" class="nav-link">
+        <i class="bi bi-boat me-2"></i> Trackings
       </a>
     </li>
   </ul>

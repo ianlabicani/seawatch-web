@@ -13,4 +13,11 @@ export const routes: Routes = [
         (m) => m.DashboardComponent
       ),
   },
+  {
+    path: 'trackings',
+    loadComponent: () =>
+      import('./trackings/trackings.component').then(
+        (m) => m.TrackingsComponent
+      ),
+  },
 ];
