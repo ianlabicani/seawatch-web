@@ -13,6 +13,7 @@ import {
   provideFirestore,
 } from '@angular/fire/firestore';
 import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
+import { IMAGE_CONFIG } from '@angular/common';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -45,5 +46,12 @@ export const appConfig: ApplicationConfig = {
       }
       return auth;
     }),
+    {
+      provide: IMAGE_CONFIG,
+      useValue: {
+        disableImageSizeWarning: true,
+        disableImageLazyLoadWarning: true,
+      },
+    },
   ],
 };
