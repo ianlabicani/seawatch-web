@@ -28,10 +28,38 @@
         <i class="bi bi-boat me-2"></i> Trackings
       </a>
     </li>
+
     <li>
-      <a routerLink="users" routerLinkActive="active" class="nav-link">
-        <i class="bi bi-boat me-2"></i> Users
-      </a>
+      <!-- TODO: make this highlighted when route contains users -->
+      <div class="dropdown">
+        <button
+          class="dropdown-toggle nav-link text-start ps-4 w-100"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          Users
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a
+              class="dropdown-item"
+              routerLink="users"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              >List</a
+            >
+          </li>
+          <li>
+            <a
+              class="dropdown-item"
+              routerLink="users/create"
+              routerLinkActive="active"
+              >Add</a
+            >
+          </li>
+        </ul>
+      </div>
     </li>
   </ul>
   <hr />
