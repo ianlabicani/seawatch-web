@@ -8,10 +8,10 @@ import {
   where,
 } from '@angular/fire/firestore';
 import { filter, map, switchMap } from 'rxjs';
-import { ITracking } from '../../coast-guard/trackings/trackings.component';
 import { TABLE_PAGINATION } from '../../shared/constants';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AuthService } from '../../auth/auth.service';
+import { ITracking } from '../../shared/models';
 
 @Component({
   selector: 'app-user-trackings',
