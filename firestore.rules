@@ -6,7 +6,7 @@ service cloud.firestore {
     // users collection
     match /users/{userId} {
       allow read: if request.auth != null &&  (isCoastGuard() || request.auth.uid == userId);
-      allow create: if request.auth != null; // only authenticated users can create a user
+      allow create: if request.auth != null && isCoastGuard(); // only coast guard can create user
       allow update: if request.auth != null &&  request.auth.uid == userId && request.resource.data.username == resource.data.username;
       allow delete: if false;
     }
