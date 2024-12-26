@@ -28,38 +28,68 @@
         <i class="bi bi-boat me-2"></i> Trackings
       </a>
     </li>
-
     <li>
-      <!-- TODO: make this highlighted when route contains users -->
-      <div class="dropdown">
-        <button
-          class="dropdown-toggle nav-link text-start ps-4 w-100"
-          type="button"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >
-          Users
-        </button>
-        <ul class="dropdown-menu">
-          <li>
-            <a
-              class="dropdown-item"
-              routerLink="users"
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"
-              >List</a
+      <div
+        class="accordion border-0 nav-link"
+        id="usersAccordion"
+        [ngClass]="{ active: router.url.includes('users') }"
+      >
+        <div class="accordion-item border-0 bg-transparent p-0">
+          <h2
+            class="accordion-header text-light bg-transparent"
+            id="usersHeading"
+          >
+            <button
+              class="accordion-button bg-transparent nav-link text-light border-0 p-0 ps-2"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#usersCollapse"
+              aria-expanded="false"
+              aria-controls="usersCollapse"
             >
-          </li>
-          <li>
-            <a
-              class="dropdown-item"
-              routerLink="users/create"
-              routerLinkActive="active"
-              >Add</a
-            >
-          </li>
-        </ul>
+              Users
+            </button>
+          </h2>
+          <div
+            id="usersCollapse"
+            class="accordion-collapse collapse"
+            aria-labelledby="usersHeading"
+            data-bs-parent="#usersAccordion"
+          >
+            <div class="accordion-body p-0 mt-3">
+              <ul class="list-unstyled mb-0">
+                <li>
+                  <a
+                    class="nav-link ps-4"
+                    routerLink="users"
+                    routerLinkActive="active-reverse"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    >List</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="nav-link ps-4"
+                    routerLink="users/create"
+                    routerLinkActive="active-reverse"
+                    >Add</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
+    </li>
+    <li>
+      <a routerLink="trackings" routerLinkActive="active" class="nav-link">
+        <i class="bi bi-boat me-2"></i> Trackings
+      </a>
+    </li>
+    <li>
+      <a routerLink="trackings" routerLinkActive="active" class="nav-link">
+        <i class="bi bi-boat me-2"></i> Trackings
+      </a>
     </li>
   </ul>
   <hr />
