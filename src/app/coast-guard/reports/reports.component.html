@@ -1,0 +1,67 @@
+@let reportsData = reportsSig();
+
+<div class="container mt-4">
+  <h2>Alerts</h2>
+  <div class="d-flex justify-content-between mb-3">
+    <p class="text-muted">
+      Displaying {{ reportsData.length }} report records.
+    </p>
+  </div>
+
+  <table class="table table-hover table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Incident Date</th>
+        <th scope="col">Location</th>
+        <th scope="col">Description</th>
+        <th scope="col">Created At</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @if (isLoaded()) { @for (alert of reportsData | paginate: { itemsPerPage,
+      currentPage }; track $index) {
+      <tr>
+        <th scope="row">{{ $index + 1 }}</th>
+        <td>{{ alert.incidentDate.toDate() | date : "medium" }}</td>
+        <td>{{ alert.location.latitude }} | {{ alert.location.longitude }}</td>
+        <td>{{ alert.description }}</td>
+        <td>{{ alert.createdAt.toDate() | date : "medium" }}</td>
+        <td>
+          <div class="d-flex justify-content-around">
+            <a routerLink="/" class="btn btn-info btn-sm text-white"> View </a>
+            <a routerLink="/" class="btn btn-warning btn-sm text-white mx-2">
+              Edit
+            </a>
+          </div>
+        </td>
+      </tr>
+      } @empty {
+      <tr>
+        <td colspan="6" class="text-center">
+          <div class="alert alert-warning fs-3" role="alert">No records.</div>
+        </td>
+      </tr>
+      } } @else {
+      <tr>
+        <td colspan="6" class="text-center">
+          <div
+            class="spinner-border text-primary"
+            style="width: 3rem; height: 3rem"
+            role="status"
+          >
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="pagination-container d-flex justify-content-end">
+    <pagination-controls
+      (pageChange)="itemsPerPage = $event"
+    ></pagination-controls>
+  </div>
+</div>
