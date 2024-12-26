@@ -199,14 +199,19 @@
     >
       Add Emergency Contact
     </button>
-
+    @let isSubmittingData = isSubmitting();
     <!-- Submit Button -->
     <button
       type="submit"
-      [disabled]="formGroup.invalid"
+      [disabled]="formGroup.invalid || isSubmittingData"
       class="btn btn-lg btn-primary ms-auto d-block"
     >
-      Submit
+      @if (isSubmittingData) {
+      <div class="spinner-border text-light" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      } @else { Submit }
     </button>
   </form>
 </div>
+<!-- TODO: add valiadtion messages -->

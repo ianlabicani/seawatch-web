@@ -1,27 +1,17 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   Auth,
   createUserWithEmailAndPassword,
-  signInWithCredential,
-  signInWithEmailAndPassword,
-  signOut,
   updateCurrentUser,
 } from '@angular/fire/auth';
-import {
-  addDoc,
-  collection,
-  doc,
-  Firestore,
-  setDoc,
-} from '@angular/fire/firestore';
+import { doc, Firestore, setDoc } from '@angular/fire/firestore';
 import {
   FormArray,
   FormBuilder,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../../auth/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-users-create',
@@ -35,6 +25,7 @@ export class UsersCreateComponent {
   private auth = inject(Auth);
   router = inject(Router);
   route = inject(ActivatedRoute);
+  isSubmitting = signal(false);
 
   formGroup = this.fb.nonNullable.group({
     boatId: ['', Validators.required],
@@ -60,7 +51,7 @@ export class UsersCreateComponent {
       this.formGroup.markAllAsTouched();
       return;
     }
-
+    this.isSubmitting.set(true);
     const currentUser = this.auth.currentUser;
 
     const userCredential = await createUserWithEmailAndPassword(
