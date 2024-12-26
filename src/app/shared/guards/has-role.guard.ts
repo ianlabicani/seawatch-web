@@ -1,25 +1,29 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { filter, map } from 'rxjs';
 
 export const hasRoleGuard = (role: string): CanActivateFn => {
   return () => {
-    const user = localStorage.getItem('user');
     const router = inject(Router);
+    const authService = inject(AuthService);
 
-    if (user === null) {
-      router.navigate(['/auth/login']);
-      return false;
-    }
+    return toObservable(authService.userAuthSig).pipe(
+      filter((user) => user !== undefined),
+      map((user) => {
+        if (!user) {
+          router.navigate(['/login']);
+          return false;
+        }
 
-    const userData = JSON.parse(user);
+        if (user.role !== role) {
+          router.navigate(['/']);
+          return false;
+        }
 
-    if (userData.role !== role) {
-      console.log(role, userData.role);
-
-      router.navigate(['/welcome']);
-      return false;
-    }
-
-    return true;
+        return true;
+      })
+    );
   };
 };

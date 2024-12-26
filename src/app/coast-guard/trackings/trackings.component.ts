@@ -25,6 +25,7 @@ export class TrackingsComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   trackingsSignal = signal<ITracking[]>([]);
+  isLoaded = signal<boolean>(false);
 
   itemsPerPage = TABLE_PAGINATION.ITEMS_PER_PAGE;
   currentPage = TABLE_PAGINATION.PAGE;
@@ -38,31 +39,8 @@ export class TrackingsComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe((trackings) => {
-        // this.trackingsSignal.set(trackings);
+        this.isLoaded.set(true);
+        this.trackingsSignal.set(trackings);
       });
-
-    this.trackingsSignal.set([
-      {
-        id: '1',
-        username: 'John Doe',
-        description: 'Delivered package',
-        location: 'New York',
-        date: '2024-12-25',
-      },
-      {
-        id: '3',
-        username: 'Michael Johnson',
-        description: 'In transit',
-        location: 'Chicago',
-        date: '2024-12-23',
-      },
-      {
-        id: '2',
-        username: 'Jane Smith',
-        description: 'Picked up package',
-        location: 'Los Angeles',
-        date: '2024-12-24',
-      },
-    ]);
   }
 }

@@ -27,6 +27,13 @@ export const routes: Routes = [
       import('./coast-guard/coast-guard.routes').then((m) => m.routes),
   },
   {
+    path: 'user',
+    canActivate: [authGuard, hasRoleGuard('user')],
+    loadComponent: () =>
+      import('./user/user.component').then((m) => m.UserComponent),
+    loadChildren: () => import('./user/user.routes').then((m) => m.routes),
+  },
+  {
     path: 'unauthorized',
     loadComponent: () =>
       import('./auth/shared/unauth/unauth.component').then(

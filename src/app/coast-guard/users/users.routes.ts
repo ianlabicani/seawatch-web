@@ -7,6 +7,13 @@ export const routes: Routes = [
       import('./users.component').then((m) => m.UsersComponent),
   },
   {
+    path: 'create',
+    loadComponent: () =>
+      import('./users-create/users-create.component').then(
+        (m) => m.UsersCreateComponent
+      ),
+  },
+  {
     path: ':id',
     loadComponent: () =>
       import('./users-details/users-details.component').then(

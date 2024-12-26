@@ -1,3 +1,5 @@
+@let userAuthData = authService.userAuthSig();
+
 <div class="container">
   <!-- Top Navigation Bar -->
   <nav
@@ -26,7 +28,9 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#home">Home</a>
+            <a class="nav-link active" aria-current="page" href="#welcome"
+              >Welcome</a
+            >
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#features">Features</a>
@@ -38,12 +42,14 @@
             <a class="nav-link" href="#contact">Contact</a>
           </li>
           <li class="nav-item ms-3">
-            @if (!user.role) {
-            <a routerLink="/auth/login" class="btn btn-outline-primary">
-              Login
-            </a>
-            } @else if (user.role === 'coast-guard') {
-            <a routerLink="/coast-guard" class="btn btn-primary">Dashboard</a>
+            @if (userAuthData) {
+            <a
+              [routerLink]="[userAuthData.role]"
+              class="btn btn-outline-primary"
+              >Home</a
+            >
+            } @else {
+            <a routerLink="auth/login" class="btn btn-outline-primary">Login</a>
             }
           </li>
         </ul>
@@ -52,7 +58,7 @@
   </nav>
 
   <div
-    id="home"
+    id="welcome"
     class="d-flex flex-column justify-content-center align-items-center my-5"
   >
     <!-- Welcome Card -->
@@ -69,16 +75,13 @@
         Your trusted partner in maritime monitoring and safety.
       </p>
       <div class="d-grid gap-2 col-6 mx-auto">
-        @if (!user.role) {
-        <a
-          routerLink="/auth/login"
-          class="btn btn-outline-primary btn-lg fw-bold"
+        @if (userAuthData) {
+        <a [routerLink]="[userAuthData.role]" class="btn btn-lg btn-primary"
+          >Start Monitoring!</a
         >
-          Login
-        </a>
-        } @else if (user.role === 'coast-guard') {
-        <a routerLink="/coast-guard" class="btn btn-primary btn-lg fw-bold"
-          >Dashboard</a
+        } @else {
+        <a routerLink="auth/register" class="btn btn-lg btn-primary"
+          >Get Started</a
         >
         }
       </div>

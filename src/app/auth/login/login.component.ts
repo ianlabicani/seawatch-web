@@ -1,6 +1,4 @@
 import { Component, inject, signal } from '@angular/core';
-import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
-import { doc, Firestore, getDoc } from '@angular/fire/firestore';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../auth.service';
@@ -34,9 +32,24 @@ export class LoginComponent {
     try {
       const { email, password } = this.formGroup.getRawValue();
       await this.authService.login(email, password);
-      this.isLogin.set(false);
-      this.errorMessage.set(null);
-      this.router.navigate(['/coast-guard']);
+      setTimeout(() => {
+        this.isLogin.set(false);
+        this.errorMessage.set(null);
+        const userAuthData = this.authService.userAuthSig();
+
+        if (!userAuthData) {
+          this.router.navigate(['/']);
+          return;
+        }
+
+        if (userAuthData.role === 'coast-guard') {
+          this.router.navigate(['/coast-guard']);
+          return;
+        } else if (userAuthData.role === 'user') {
+          this.router.navigate(['/user']);
+          return;
+        }
+      }, 1000);
     } catch (error: any) {
       if (error.code === 'auth/user-not-found') {
         this.errorMessage.set('User not found');

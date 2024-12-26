@@ -1,11 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
-import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-sidebar',
-  imports: [RouterLink, RouterLinkActive, NgClass],
+  selector: 'app-user-sidebar',
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })

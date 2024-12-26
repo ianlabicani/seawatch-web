@@ -1,0 +1,30 @@
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: #343a40;
+  color: white;
+  position: fixed;
+}
+.sidebar .nav-link {
+  color: #adb5bd;
+}
+.sidebar .nav-link.active,
+.sidebar .nav-link:hover {
+  color: white;
+  background-color: #495057;
+}
+
+.sidebar .nav-link .active-reverse {
+  background-color: #343a40;
+  color: white;
+}
+
+.accordion-button {
+  border: none; /* Removes all button borders */
+  box-shadow: none; /* Removes any shadow that might appear as a border */
+}
+
+.accordion-button:not(.collapsed) {
+  border: none; /* Removes borders for the expanded state */
+  box-shadow: none; /* Ensures no shadow appears in the active state */
+}
