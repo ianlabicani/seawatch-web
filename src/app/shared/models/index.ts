@@ -8,3 +8,26 @@ export interface ITracking {
   createdAt: Timestamp;
   updatedAt: Timestamp;
 }
+
+export interface IAlert {
+  id: string;
+  uid: string;
+  trackingId: string;
+  displayName: string;
+  geoPoint: GeoPoint;
+  isResolved: boolean;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
+
+export interface IReport {
+  id: string;
+  uid: string;
+  alertId: string;
+  trackingId: string;
+  incidentDate: Timestamp;
+  location: GeoPoint;
+  description: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
