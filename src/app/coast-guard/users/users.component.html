@@ -26,17 +26,14 @@
         <td>{{ user.email }}</td>
         <td>{{ user.role }}</td>
         <td>{{ user.isActive ? "Active" : "Inactive" }}</td>
-        <!-- Add a new column with actions -->
         <td>
           <div class="d-flex justify-content-around">
-            <!-- Action Link for Viewing User -->
             <a
-              routerLink="{{ user.id }}"
+              [routerLink]="[user.id, 'details']"
               class="btn btn-info btn-sm text-white"
             >
               View
             </a>
-            <!-- Action Link for Editing User -->
             <a
               routerLink="edit/{{ user.id }}"
               class="btn btn-warning btn-sm text-white mx-2"
@@ -46,7 +43,19 @@
           </div>
         </td>
       </tr>
-      } @empty {
+      } @if (isLoading()) {
+      <tr>
+        <td colspan="7" class="text-center">
+          <div
+            class="spinner-border text-primary"
+            style="width: 3rem; height: 3rem"
+            role="status"
+          >
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </td>
+      </tr>
+      } @else if(usersData.length === 0) {
       <tr>
         <td colspan="7" class="text-center">
           <div class="alert alert-warning fs-3" role="alert">

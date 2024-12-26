@@ -1,5 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
+import {
+  Auth,
+  createUserWithEmailAndPassword,
+  signInWithCredential,
+  signInWithEmailAndPassword,
+  signOut,
+  updateCurrentUser,
+} from '@angular/fire/auth';
 import {
   addDoc,
   collection,
@@ -13,6 +20,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-users-create',
@@ -24,6 +33,8 @@ export class UsersCreateComponent {
   private fb = inject(FormBuilder);
   private firestore = inject(Firestore);
   private auth = inject(Auth);
+  router = inject(Router);
+  route = inject(ActivatedRoute);
 
   formGroup = this.fb.nonNullable.group({
     boatId: ['', Validators.required],
@@ -50,6 +61,8 @@ export class UsersCreateComponent {
       return;
     }
 
+    const currentUser = this.auth.currentUser;
+
     const userCredential = await createUserWithEmailAndPassword(
       this.auth,
       data.email,
@@ -57,13 +70,17 @@ export class UsersCreateComponent {
     );
 
     if (!userCredential.user) {
-      console.log('Error creating user');
+      console.error('Error creating user');
       return;
     }
 
+    await updateCurrentUser(this.auth, currentUser);
+
     await setDoc(doc(this.firestore, 'users', userCredential.user.uid), data);
 
-    console.log('User created successfully');
+    this.router.navigate(['..', userCredential.user.uid, 'details'], {
+      relativeTo: this.route,
+    });
   }
 
   get emergencyContact(): FormArray {

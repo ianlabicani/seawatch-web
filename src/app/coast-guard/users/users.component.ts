@@ -14,8 +14,9 @@ import { TABLE_PAGINATION } from '../../shared/constants';
 })
 export class UsersComponent {
   private firestore = inject(Firestore);
-  usersSignal = signal<IUserAuth[]>([]);
 
+  usersSignal = signal<IUserAuth[]>([]);
+  isLoading = signal<boolean>(true);
   itemsPerPage = TABLE_PAGINATION.ITEMS_PER_PAGE;
   currentPage = TABLE_PAGINATION.PAGE;
 
@@ -25,6 +26,7 @@ export class UsersComponent {
     })
       .pipe(map((u) => u as IUserAuth[]))
       .subscribe((users) => {
+        this.isLoading.set(false);
         this.usersSignal.set(users);
       });
   }

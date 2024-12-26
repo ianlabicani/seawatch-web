@@ -14,6 +14,7 @@
         <th scope="col">GeoPoint</th>
         <th scope="col">Resolved</th>
         <th scope="col">Created At</th>
+        <th scope="col">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -26,10 +27,20 @@
         <td>{{ alert.geoPoint.latitude }} | {{ alert.geoPoint.longitude }}</td>
         <td>{{ alert.isResolved ? "Yes" : "No" }}</td>
         <td>{{ alert.createdAt.toDate() | date : "medium" }}</td>
+        <td>
+          <div class="d-flex justify-content-around">
+            <a
+              [routerLink]="[alert.id, 'details']"
+              class="btn btn-info btn-sm text-white"
+            >
+              View
+            </a>
+          </div>
+        </td>
       </tr>
       } @empty {
       <tr>
-        <td colspan="5" class="text-center">
+        <td colspan="6" class="text-center">
           <div class="alert alert-warning fs-3" role="alert">
             No user records.
           </div>
@@ -37,7 +48,7 @@
       </tr>
       } } @else {
       <tr>
-        <td colspan="5" class="text-center">
+        <td colspan="6" class="text-center">
           <div
             class="spinner-border text-primary"
             style="width: 3rem; height: 3rem"

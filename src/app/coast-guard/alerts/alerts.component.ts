@@ -6,10 +6,11 @@ import { TABLE_PAGINATION } from '../../shared/constants';
 import { IAlert } from '../../shared/models';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-coast-guard-alerts',
-  imports: [NgxPaginationModule, DatePipe],
+  imports: [NgxPaginationModule, DatePipe, RouterLink],
   templateUrl: './alerts.component.html',
   styleUrl: './alerts.component.scss',
 })

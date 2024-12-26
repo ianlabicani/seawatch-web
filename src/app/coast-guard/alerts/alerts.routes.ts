@@ -6,4 +6,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./alerts.component').then((m) => m.AlertsComponent),
   },
+  {
+    path: ':id/details',
+    loadComponent: () =>
+      import('./alert-details/alert-details.component').then(
+        (m) => m.AlertDetailsComponent
+      ),
+  },
 ];

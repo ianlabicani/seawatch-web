@@ -18,6 +18,8 @@ export const hasRoleGuard = (role: string): CanActivateFn => {
         }
 
         if (user.role !== role) {
+          console.log('here');
+
           router.navigate(['/']);
           return false;
         }
