@@ -24,4 +24,13 @@ export const routes: Routes = [
     path: 'users',
     loadChildren: () => import('./users/users.routes').then((m) => m.routes),
   },
+  {
+    path: 'alerts',
+    loadChildren: () => import('./alerts/alerts.routes').then((m) => m.routes),
+  },
+  {
+    path: 'reports',
+    loadChildren: () =>
+      import('./reports/reports.routes').then((m) => m.routes),
+  },
 ];
