@@ -40,12 +40,13 @@
             id="usersHeading"
           >
             <button
-              class="accordion-button bg-transparent nav-link text-light border-0 p-0 ps-2"
+              class="accordion-button bg-transparent nav-link border-0 p-0 ps-2"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#usersCollapse"
               aria-expanded="false"
               aria-controls="usersCollapse"
+              [ngClass]="{ active: router.url.includes('users') }"
             >
               Users
             </button>
