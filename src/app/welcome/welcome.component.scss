@@ -39,3 +39,8 @@
 #contact {
   scroll-margin-top: 70px; /* Adjust this value to match the height of your navbar */
 }
+
+.card-img-top {
+  height: 100%;
+  object-fit: contain; /* Ensures the image is cropped appropriately */
+}
