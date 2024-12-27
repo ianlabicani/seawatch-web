@@ -1,0 +1,30 @@
+<div class="map-container shadow-lg p-2 rounded">
+  <div class="d-flex flex-wrap gap-3 my-3">
+    @for (mapStyle of mapStyles; track $index) {
+    <div
+      class="thumbnail d-flex align-items-center gap-1 py-1 px-2 border rounded-pill shadow-sm"
+      (click)="onChangeMapStyle($index)"
+      style="cursor: pointer; transition: transform 0.2s ease"
+      [ngClass]="{
+        'border-primary bg-info-subtle shadow-lg':
+          currentMapStyle.name === mapStyle.name
+      }"
+    >
+      <img
+        [src]="mapStyle.url"
+        alt="{{ mapStyle.name }}"
+        width="40px"
+        height="40px"
+        class="rounded-circle border border-light shadow-sm"
+      />
+      <span class="text-capitalize fw-semibold text-dark">{{
+        mapStyle.name
+      }}</span>
+    </div>
+    }
+  </div>
+
+  <div class="map-wrapper p-2">
+    <div id="map" #map class="rounded"></div>
+  </div>
+</div>

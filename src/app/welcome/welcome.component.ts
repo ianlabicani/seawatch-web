@@ -1,17 +1,11 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  inject,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { AuthService, IUserStorage } from '../auth/auth.service';
+import { AuthService } from '../auth/auth.service';
+import { MapComponent } from '../shared/components/map/map.component';
 
 @Component({
   selector: 'app-welcome',
-  imports: [RouterLink],
+  imports: [RouterLink, MapComponent],
   templateUrl: './welcome.component.html',
   styleUrl: './welcome.component.scss',
 })

@@ -9,7 +9,9 @@ import { routes } from './app.routes';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import {
   connectFirestoreEmulator,
+  enableIndexedDbPersistence,
   getFirestore,
+  persistentLocalCache,
   provideFirestore,
 } from '@angular/fire/firestore';
 import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
@@ -35,6 +37,17 @@ export const appConfig: ApplicationConfig = {
       if (isDevMode()) {
         connectFirestoreEmulator(firestore, 'localhost', 8080);
       }
+
+      enableIndexedDbPersistence(firestore)
+        .then(() => console.log('Persistence enabled!'))
+        .catch((err) => {
+          if (err.code === 'failed-precondition') {
+            console.warn('Persistence failed: Multiple tabs open');
+          } else if (err.code === 'unimplemented') {
+            console.warn('Persistence is not available in this browser.');
+          }
+        });
+
       return firestore;
     }),
     provideAuth(() => {
