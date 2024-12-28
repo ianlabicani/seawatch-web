@@ -8,10 +8,9 @@
 .sidebar .nav-link {
   color: #adb5bd;
 }
-.sidebar .nav-link.active,
-.sidebar .nav-link:hover {
-  color: white;
-  background-color: #495057;
+.nav-link.active,
+.nav-link:hover {
+  text-decoration: underline;
 }
 
 .sidebar .nav-link .active-reverse {

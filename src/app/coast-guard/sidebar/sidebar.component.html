@@ -1,4 +1,6 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
+<nav
+  class="navbar navbar-expand-lg mb-3 navbar-light bg-light sticky-top left-0 shadow-sm"
+>
   <div class="container">
     <a class="navbar-brand fs-3 d-flex align-items-center gap-1" routerLink="/">
       <img
@@ -25,7 +27,7 @@
           <a
             routerLink="home"
             class="nav-link"
-            routerLinkActive="active"
+            routerLinkActive="active bg-primary-subtle "
             aria-current="page"
           >
             Home
@@ -35,25 +37,37 @@
           <a
             routerLink="dashboard"
             class="nav-link"
-            routerLinkActive="active"
+            routerLinkActive="active bg-primary-subtle "
             aria-current="page"
           >
             Dashboard
           </a>
         </li>
         <li>
-          <a routerLink="trackings" routerLinkActive="active" class="nav-link">
+          <a
+            routerLink="trackings"
+            routerLinkActive="active bg-primary-subtle "
+            class="nav-link"
+          >
             Trackings
           </a>
         </li>
         <li>
-          <a routerLink="alerts" routerLinkActive="active" class="nav-link">
+          <a
+            routerLink="alerts"
+            routerLinkActive="active bg-primary-subtle "
+            class="nav-link"
+          >
             Alerts
           </a>
         </li>
 
         <li>
-          <a routerLink="reports" routerLinkActive="active" class="nav-link">
+          <a
+            routerLink="reports"
+            routerLinkActive="active bg-primary-subtle "
+            class="nav-link"
+          >
             Reports
           </a>
         </li>
@@ -64,14 +78,31 @@
             role="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
+            [ngClass]="
+              router.url.includes('users') ? 'active bg-primary-subtle' : ''
+            "
           >
             Users
           </a>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu mb-3">
             <li>
-              <a class="dropdown-item" routerLink="users/create">Register</a>
+              <a
+                class="dropdown-item"
+                routerLink="users/create"
+                routerLinkActive="text-decoration-underline bg-primary-subtle"
+                [routerLinkActiveOptions]="{ exact: true }"
+                >Register</a
+              >
             </li>
-            <li><a class="dropdown-item" routerLink="users">List</a></li>
+            <li>
+              <a
+                class="dropdown-item"
+                routerLink="users"
+                routerLinkActive="text-decoration-underline bg-primary-subtle"
+                [routerLinkActiveOptions]="{ exact: true }"
+                >List</a
+              >
+            </li>
           </ul>
         </li>
         <li class="nav-item ms-4">

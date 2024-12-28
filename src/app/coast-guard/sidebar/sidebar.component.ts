@@ -5,7 +5,7 @@ import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, NgClass],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
