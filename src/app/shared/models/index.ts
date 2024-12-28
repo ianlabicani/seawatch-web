@@ -13,6 +13,7 @@ export interface IAlert {
   id: string;
   uid: string;
   trackingId: string;
+  reportId: string | null;
   username: string;
   geoPoint: GeoPoint;
   isResolved: boolean;

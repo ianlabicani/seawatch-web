@@ -95,6 +95,8 @@ export class MapComponent implements OnInit {
     }
   }
 
+  //TODO: add start point markers
+
   addGeofencingPolygon(): void {
     L.geoJSON()
       .addData(aparriMockBoundaries as any)
