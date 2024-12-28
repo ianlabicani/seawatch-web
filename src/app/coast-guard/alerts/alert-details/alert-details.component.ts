@@ -53,8 +53,6 @@ export class AlertDetailsComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe((a) => {
-        console.log(a);
-
         this.alertSig.set(a);
         this.mapRefSig()
           .addAlertMarker(a.geoPoint.latitude, a.geoPoint.longitude)

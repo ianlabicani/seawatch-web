@@ -30,7 +30,6 @@ export class ReportsComponent {
       .subscribe((reports) => {
         this.isLoaded.set(true);
         this.reportsSig.set(reports);
-        console.log(reports);
       });
   }
 }

@@ -43,8 +43,6 @@ export class TrackingsComponent implements OnInit {
       .getAll()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((trackings) => {
-        console.log('subscribed trackings');
-
         this.isLoaded.set(true);
         this.trackingsSignal.set(trackings);
         for (let track = 0; track < trackings.length; track++) {
