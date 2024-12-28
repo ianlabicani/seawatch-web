@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import {
   addDoc,
   collection,
@@ -19,6 +19,8 @@ export class AlertsReportFormComponent {
   private fb = inject(FormBuilder);
   private firestore = inject(Firestore);
   router = inject(Router);
+
+  alertId = input.required<string>();
 
   formGroup = this.fb.nonNullable.group({
     description: ['', [Validators.required]],
@@ -46,8 +48,6 @@ export class AlertsReportFormComponent {
     try {
       await addDoc(collection(this.firestore, 'reports'), {
         ...data,
-        location: new GeoPoint(0, 0),
-        incidentDate: Timestamp.fromDate(new Date()),
       });
     } catch (error) {
       console.error('Error creating report:', error);

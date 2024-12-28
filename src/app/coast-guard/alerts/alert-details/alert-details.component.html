@@ -62,26 +62,122 @@
       </li>
     </ul>
   </div>
-  } @if (alertData && alertData.isResolved) { @if (alertData.reportId) {
-  <a
-    class="btn btn-info"
-    [routerLink]="['/coast-guard/reports', alertData.id, 'details']"
-    >View Report</a
-  >
-
-  } @else { @if (isCreateReport()) {
-  <a class="btn btn-warning" (click)="isCreateReport.set(false)"
-    >Cancel Report</a
-  >
-  } @else {
-  <button class="btn btn-success" (click)="isCreateReport.set(true)">
-    Create Report
-  </button>
-  } @if (isCreateReport()) {
-  <app-alerts-report-form></app-alerts-report-form>
-  } } } @else {
-  <button class="btn btn-danger" (click)="resolveAlert()">Resolve Alert</button>
   }
+
+  <div class="my-2">
+    @if (alertData && alertData.isResolved) { @if (alertData.report) {
+    <app-reports-details [reportSig]="alertData.report"></app-reports-details>
+
+    } @else { @if (isCreateReport()) {
+    <a class="btn btn-warning" (click)="isCreateReport.set(false)"
+      >Cancel Report</a
+    >
+    } @else {
+    <button class="btn btn-success" (click)="isCreateReport.set(true)">
+      Create Report
+    </button>
+    } @if (isCreateReport()) {
+    <div class="mt-3">
+      <div class="container">
+        <h2 class="mb-4">Create Report</h2>
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+          <!-- Description -->
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea
+              formControlName="description"
+              class="form-control"
+              id="description"
+              rows="3"
+              placeholder="Enter description of the incident"
+              required
+            ></textarea>
+            @let description = formGroup.controls.description; @if
+            (description.invalid && (description.touched || description.dirty))
+            {
+            <div class="text-danger mt-1">
+              @if (description.hasError('required')) {
+              <small> Description is required. </small>
+              }
+            </div>
+
+            }
+          </div>
+
+          <!-- Who -->
+          <div class="mb-3">
+            <label for="who" class="form-label">Who</label>
+            <input
+              type="text"
+              formControlName="who"
+              class="form-control"
+              id="who"
+              placeholder="Who is involved?"
+              required
+            />
+          </div>
+
+          <!-- What -->
+          <div class="mb-3">
+            <label for="what" class="form-label">What</label>
+            <input
+              type="text"
+              formControlName="what"
+              class="form-control"
+              id="what"
+              placeholder="What happened?"
+              required
+            />
+          </div>
+
+          <!-- Where -->
+          <div class="mb-3">
+            <label for="where" class="form-label">Where</label>
+            <input
+              type="text"
+              formControlName="where"
+              class="form-control"
+              id="where"
+              placeholder="Where did it happen?"
+              required
+            />
+          </div>
+
+          <!-- When -->
+          <div class="mb-3">
+            <label for="when" class="form-label">When</label>
+            <input
+              type="datetime-local"
+              formControlName="when"
+              class="form-control"
+              id="when"
+              placeholder="When did it happen?"
+              required
+            />
+          </div>
+
+          <!-- How -->
+          <div class="mb-3">
+            <label for="how" class="form-label">How</label>
+            <textarea
+              formControlName="how"
+              class="form-control"
+              id="how"
+              rows="3"
+              placeholder="How did it happen?"
+              required
+            ></textarea>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-primary btn-lg d-block ms-auto">
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
+    } } }
+  </div>
 
   <div class="my-4">
     <app-map #appMap></app-map>

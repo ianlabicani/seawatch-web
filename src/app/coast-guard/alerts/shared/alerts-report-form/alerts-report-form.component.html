@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container">
   <h2 class="mb-4">Create Report</h2>
   <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
     <!-- Description -->
@@ -12,6 +12,15 @@
         placeholder="Enter description of the incident"
         required
       ></textarea>
+      @let description = formGroup.controls.description; @if
+      (description.invalid && (description.touched || description.dirty)) {
+      <div class="text-danger mt-1">
+        @if (description.hasError('required')) {
+        <small> Description is required. </small>
+        }
+      </div>
+
+      }
     </div>
 
     <!-- Who -->
@@ -80,6 +89,8 @@
     </div>
 
     <!-- Submit Button -->
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary btn-lg d-block ms-auto">
+      Submit
+    </button>
   </form>
 </div>

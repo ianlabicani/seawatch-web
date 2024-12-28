@@ -1,5 +1,4 @@
 @let reportsData = reportsSig();
-
 <div class="container mt-4">
   <h2>Reports</h2>
   <div class="d-flex justify-content-between mb-3">
@@ -12,28 +11,42 @@
     <thead class="table-dark">
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Incident Date</th>
-        <th scope="col">Location</th>
+        <th scope="col">Alert ID</th>
         <th scope="col">Description</th>
         <th scope="col">Created At</th>
         <th scope="col">Actions</th>
       </tr>
     </thead>
     <tbody>
-      @if (isLoaded()) { @for (alert of reportsData | paginate: { itemsPerPage,
-      currentPage }; track $index) {
+      <!-- Check if the reports are loaded -->
+      @if (isLoaded()) {
+      <!-- Iterate through the reportsData -->
+      @for (report of reportsData | paginate: { itemsPerPage, currentPage };
+      track $index) {
       <tr>
         <th scope="row">{{ $index + 1 }}</th>
-        <td>{{ alert.incidentDate.toDate() | date : "medium" }}</td>
-        <td>{{ alert.location.latitude }} | {{ alert.location.longitude }}</td>
-        <td>{{ alert.description }}</td>
-        <td>{{ alert.createdAt.toDate() | date : "medium" }}</td>
+        <td>
+          <a
+            [routerLink]="['/coast-guard/alerts', report.alertId, 'details']"
+            >{{ report.alertId }}</a
+          >
+        </td>
+        <td>{{ report.description }}</td>
+        <td>{{ report.createdAt.toDate() | date : "medium" }}</td>
         <td>
           <div class="d-flex justify-content-around">
-            <a routerLink="/" class="btn btn-info btn-sm text-white"> View </a>
-            <a routerLink="/" class="btn btn-warning btn-sm text-white mx-2">
-              Edit
+            <a
+              routerLink="/coast-guard/alerts/{{ report.alertId }}/details"
+              class="btn btn-info btn-sm text-white"
+            >
+              View Full Details
             </a>
+            <!-- <a
+              routerLink="/reports/edit/{{ report.id }}"
+              class="btn btn-warning btn-sm text-white mx-2"
+            >
+              Edit
+            </a> -->
           </div>
         </td>
       </tr>
@@ -43,7 +56,9 @@
           <div class="alert alert-warning fs-3" role="alert">No records.</div>
         </td>
       </tr>
-      } } @else {
+      } }
+      <!-- Show loading spinner while data is being loaded -->
+      @else {
       <tr>
         <td colspan="6" class="text-center">
           <div
@@ -59,9 +74,10 @@
     </tbody>
   </table>
 
+  <!-- Pagination Controls -->
   <div class="pagination-container d-flex justify-content-end">
     <pagination-controls
-      (pageChange)="itemsPerPage = $event"
+      (pageChange)="currentPage = $event"
     ></pagination-controls>
   </div>
 </div>

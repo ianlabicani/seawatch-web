@@ -16,6 +16,7 @@ export interface IAlert {
   reportId: string | null;
   username: string;
   geoPoint: GeoPoint;
+  report: IReport | null;
   isResolved: boolean;
   createdAt: Timestamp;
   updatedAt: Timestamp;
@@ -23,12 +24,13 @@ export interface IAlert {
 
 export interface IReport {
   id: string;
-  uid: string;
   alertId: string;
-  trackingId: string;
-  incidentDate: Timestamp;
-  location: GeoPoint;
   description: string;
+  who: string;
+  what: string;
+  where: string;
+  when: string;
+  how: string;
   createdAt: Timestamp;
   updatedAt: Timestamp;
 }

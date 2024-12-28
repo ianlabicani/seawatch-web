@@ -1,0 +1,64 @@
+@let reportData = reportSig(); @if (reportData !== null) {
+<!-- Skeleton Placeholder -->
+<div class="container mt-5">
+  <div class="container mt-4">
+    <h2 class="mb-3">Report Details</h2>
+    <div class="row">
+      <!-- ID -->
+      <div class="col-md-6 mb-3">
+        <strong>ID:</strong>
+        <p class="text-muted">{{ reportData.id }}</p>
+      </div>
+      <!-- Alert ID -->
+      <div class="col-md-6 mb-3">
+        <strong>Alert ID:</strong>
+        <p class="text-muted">{{ reportData.alertId }}</p>
+      </div>
+      <!-- Description -->
+      <div class="col-12 mb-3">
+        <strong>Description:</strong>
+        <p class="text-muted">{{ reportData.description }}</p>
+      </div>
+      <!-- Who -->
+      <div class="col-md-6 mb-3">
+        <strong>Who:</strong>
+        <p class="text-muted">{{ reportData.who }}</p>
+      </div>
+      <!-- What -->
+      <div class="col-md-6 mb-3">
+        <strong>What:</strong>
+        <p class="text-muted">{{ reportData.what }}</p>
+      </div>
+      <!-- Where -->
+      <div class="col-md-6 mb-3">
+        <strong>Where:</strong>
+        <p class="text-muted">{{ reportData.where }}</p>
+      </div>
+      <!-- When -->
+      <div class="col-md-6 mb-3">
+        <strong>When:</strong>
+        <p class="text-muted">{{ reportData.when }}</p>
+      </div>
+      <!-- How -->
+      <div class="col-12 mb-3">
+        <strong>How:</strong>
+        <p class="text-muted">{{ reportData.how }}</p>
+      </div>
+      <!-- Created At -->
+      <div class="col-md-6 mb-3">
+        <strong>Created At:</strong>
+        <p class="text-muted">
+          {{ reportData.createdAt.toDate() | date : "medium" }}
+        </p>
+      </div>
+      <!-- Updated At -->
+      <div class="col-md-6 mb-3">
+        <strong>Updated At:</strong>
+        <p class="text-muted">
+          {{ reportData.updatedAt.toDate() | date : "medium" }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+}

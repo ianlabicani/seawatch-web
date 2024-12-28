@@ -6,11 +6,4 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./reports.component').then((m) => m.ReportsComponent),
   },
-  {
-    path: ':id/create',
-    loadComponent: () =>
-      import('./reports-create/reports-create.component').then(
-        (m) => m.ReportsCreateComponent
-      ),
-  },
 ];
