@@ -17,7 +17,7 @@ export interface IUserStorage {
 
 export interface IUserAuth {
   id: string;
-  displayName: string;
+  username: string;
   firstname: string;
   lastname: string;
   email: string;
@@ -80,7 +80,7 @@ export class AuthService {
     };
   }
 
-  async register(email: string, password: string, displayName: string) {
+  async register(email: string, password: string, username: string) {
     const { user } = await createUserWithEmailAndPassword(
       this.auth,
       email,
@@ -88,7 +88,7 @@ export class AuthService {
     );
     const userRef = doc(this.firestore, 'users', user.uid);
     await setDoc(userRef, {
-      displayName,
+      username,
       email,
       role: 'user',
       isActive: true,

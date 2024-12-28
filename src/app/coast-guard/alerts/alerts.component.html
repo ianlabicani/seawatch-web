@@ -10,7 +10,7 @@
     <thead class="table-dark">
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Display Name</th>
+        <th scope="col">Username</th>
         <th scope="col">GeoPoint</th>
         <th scope="col">Resolved</th>
         <th scope="col">Created At</th>
@@ -23,7 +23,7 @@
 
       <tr>
         <th scope="row">{{ $index + 1 }}</th>
-        <td>{{ alert.displayName }}</td>
+        <td>{{ alert.username }}</td>
         <td>{{ alert.geoPoint.latitude }} | {{ alert.geoPoint.longitude }}</td>
         <td>{{ alert.isResolved ? "Yes" : "No" }}</td>
         <td>{{ alert.createdAt.toDate() | date : "medium" }}</td>

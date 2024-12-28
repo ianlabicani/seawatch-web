@@ -67,7 +67,7 @@ export class HomeComponent implements OnInit {
             .addEndPointMarker(endPoint.latitude, endPoint.longitude)
             .bindPopup(
               `
-                Username:<strong> ${adventure.displayName}</strong> <br>
+                Username:<strong> ${adventure.username}</strong> <br>
                 Adventure ID: ${adventure.id} <br>
                 Start Date: ${new Date(
                   adventure.createdAt.seconds * 1000
@@ -132,7 +132,7 @@ export class HomeComponent implements OnInit {
             .addAlertMarker(alert.geoPoint.latitude, alert.geoPoint.longitude)
             .bindPopup(
               `
-                Username:<strong> ${alert.displayName}</strong> <br>
+                Username:<strong> ${alert.username}</strong> <br>
                 Alert ID: ${alert.id} <br>
                 Reported At: 
                 <strong>
