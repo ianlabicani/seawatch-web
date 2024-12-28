@@ -1,10 +1,10 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { IUserAuth } from '../../auth/auth.service';
-import { Firestore, collectionData, collection } from '@angular/fire/firestore';
-import { map } from 'rxjs';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RouterLink } from '@angular/router';
 import { TABLE_PAGINATION } from '../../shared/constants';
+import { UserService } from '../../core/services/user.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-users',
@@ -13,7 +13,8 @@ import { TABLE_PAGINATION } from '../../shared/constants';
   styleUrl: './users.component.scss',
 })
 export class UsersComponent {
-  private firestore = inject(Firestore);
+  private userService = inject(UserService);
+  private destroyRef = inject(DestroyRef);
 
   usersSignal = signal<IUserAuth[]>([]);
   isLoading = signal<boolean>(true);
@@ -21,10 +22,9 @@ export class UsersComponent {
   currentPage = TABLE_PAGINATION.PAGE;
 
   ngOnInit(): void {
-    collectionData(collection(this.firestore, 'users'), {
-      idField: 'id',
-    })
-      .pipe(map((u) => u as IUserAuth[]))
+    this.userService
+      .getAll()
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((users) => {
         this.isLoading.set(false);
         this.usersSignal.set(users);

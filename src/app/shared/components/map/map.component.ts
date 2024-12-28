@@ -1,13 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-  viewChild,
-} from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import '@maptiler/sdk/dist/maptiler-sdk.css';
 // @ts-ignore
 import { MaptilerLayer } from '@maptiler/leaflet-maptilersdk';

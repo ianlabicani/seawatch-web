@@ -2,8 +2,6 @@ import { Component, inject, signal } from '@angular/core';
 import {
   Firestore,
   Timestamp,
-  setDoc,
-  doc,
   GeoPoint,
   addDoc,
   collection,

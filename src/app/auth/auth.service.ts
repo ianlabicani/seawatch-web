@@ -1,5 +1,4 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import {
   Auth,
   createUserWithEmailAndPassword,
@@ -7,7 +6,7 @@ import {
   user,
 } from '@angular/fire/auth';
 import { getDoc, doc, Firestore, setDoc } from '@angular/fire/firestore';
-import { filter, switchMap, from, map, of } from 'rxjs';
+import { switchMap, from, map, of } from 'rxjs';
 
 export interface IUserStorage {
   uid: string;

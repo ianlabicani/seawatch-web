@@ -6,14 +6,13 @@ import {
   viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Firestore, collectionData, collection } from '@angular/fire/firestore';
-import { map } from 'rxjs';
 import { TABLE_PAGINATION } from '../../shared/constants';
 import { IAlert } from '../../shared/models';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MapComponent } from '../../shared/components/map/map.component';
+import { AlertService } from '../../core/services/alert.service';
 
 @Component({
   selector: 'app-coast-guard-alerts',
@@ -22,8 +21,8 @@ import { MapComponent } from '../../shared/components/map/map.component';
   styleUrl: './alerts.component.scss',
 })
 export class AlertsComponent {
-  private firestore = inject(Firestore);
   private destroyRef = inject(DestroyRef);
+  private alertService = inject(AlertService);
 
   alertsSig = signal<IAlert[]>([]);
   isLoaded = signal<boolean>(false);
@@ -33,13 +32,9 @@ export class AlertsComponent {
   mapRefSig = viewChild.required<MapComponent>('appMap');
 
   ngOnInit(): void {
-    collectionData(collection(this.firestore, 'alerts'), {
-      idField: 'id',
-    })
-      .pipe(
-        map((t) => t as IAlert[]),
-        takeUntilDestroyed(this.destroyRef)
-      )
+    this.alertService
+      .getAll()
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((alerts) => {
         this.isLoaded.set(true);
         this.alertsSig.set(alerts);

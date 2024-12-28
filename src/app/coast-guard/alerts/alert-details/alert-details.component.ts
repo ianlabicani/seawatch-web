@@ -7,24 +7,13 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import {
-  collection,
-  collectionData,
-  doc,
-  docData,
-  Firestore,
-  getDoc,
-  query,
-  updateDoc,
-  where,
-} from '@angular/fire/firestore';
+import { doc, docData, Firestore, updateDoc } from '@angular/fire/firestore';
 import { IAlert, ITracking } from '../../../shared/models';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MapComponent } from '../../../shared/components/map/map.component';
 import { map, switchMap } from 'rxjs';
-import { ReportsCreateComponent } from '../../reports/reports-create/reports-create.component';
 import { AlertsReportFormComponent } from '../shared/alerts-report-form/alerts-report-form.component';
 
 @Component({

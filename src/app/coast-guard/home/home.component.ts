@@ -1,18 +1,13 @@
 import {
-  AfterViewInit,
   Component,
   DestroyRef,
-  ElementRef,
   inject,
   OnInit,
   viewChild,
 } from '@angular/core';
 import { MapComponent } from '../../shared/components/map/map.component';
 // @ts-ignore
-import { MaptilerLayer } from '@maptiler/leaflet-maptilersdk';
 import L from 'leaflet';
-import { WelcomeComponent } from '../../welcome/welcome.component';
-import { aparriMockBoundaries } from '../../shared/components/map/aparri-mock-boundaries';
 import {
   collectionChanges,
   collection,

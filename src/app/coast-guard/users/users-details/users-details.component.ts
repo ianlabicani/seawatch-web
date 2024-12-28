@@ -1,7 +1,6 @@
 import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { doc, Firestore, getDoc } from '@angular/fire/firestore';
 import { IUserAuth } from '../../../auth/auth.service';
-import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-users-details',
