@@ -1,4 +1,11 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import '@maptiler/sdk/dist/maptiler-sdk.css';
 // @ts-ignore
 import { MaptilerLayer } from '@maptiler/leaflet-maptilersdk';
@@ -15,6 +22,8 @@ import { NgClass } from '@angular/common';
 export class MapComponent implements OnInit {
   @ViewChild('map', { static: true }) mapRef!: ElementRef;
   mtLayer?: MaptilerLayer;
+  osmLayer?: L.TileLayer; // To store OpenStreetMap layer
+  isMapTilerActive = signal(false);
   center: L.LatLngExpression = [18.385435, 121.641164]; // Default center
   @Input() zoom: number = 12; // Default zoom
   map!: L.Map;
@@ -56,10 +65,16 @@ export class MapComponent implements OnInit {
       url: 'https://cloud.maptiler.com/static/img/maps/winter-v2.png?t=1713275643',
     },
   ];
-  currentMapStyle = this.mapStyles[0];
+  currentMapStyle: { name: string; url: string } | null = null;
 
   ngOnInit(): void {
     this.initializeMap();
+  }
+
+  ngOnDestroy(): void {
+    if (this.map) {
+      this.map.remove();
+    }
   }
 
   initializeMap(): void {
@@ -69,10 +84,8 @@ export class MapComponent implements OnInit {
       zoomControl: false,
     });
 
-    this.mtLayer = new MaptilerLayer({
-      apiKey: 'bZpmItn2cuWjeIdpgbH5',
-      style: this.currentMapStyle.name,
-    }).addTo(this.map);
+    this.useLeafletLayer();
+
     this.addGeofencingPolygon();
 
     setTimeout(() => {
@@ -80,10 +93,35 @@ export class MapComponent implements OnInit {
     }, 0);
   }
 
-  ngOnDestroy(): void {
-    if (this.map) {
-      this.map.remove();
+  useLeafletLayer(): void {
+    // Remove MapTiler layer if it's active
+    if (this.mtLayer && this.map.hasLayer(this.mtLayer)) {
+      this.map.removeLayer(this.mtLayer);
     }
+    this.isMapTilerActive.set(false);
+
+    // Add OpenStreetMap layer
+    this.osmLayer = L.tileLayer(
+      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }
+    ).addTo(this.map);
+  }
+
+  useMaptilerLayer(): void {
+    // Remove OpenStreetMap layer if it's active
+    if (this.osmLayer && this.map.hasLayer(this.osmLayer)) {
+      this.map.removeLayer(this.osmLayer);
+    }
+    this.isMapTilerActive.set(true);
+
+    // Add MapTiler layer
+    this.mtLayer = new MaptilerLayer({
+      apiKey: 'bZpmItn2cuWjeIdpgbH5',
+      style: this.currentMapStyle?.name,
+    }).addTo(this.map);
   }
 
   //TODO: add start point markers
@@ -131,6 +169,7 @@ export class MapComponent implements OnInit {
     if (this.currentMapStyle === this.mapStyles[i]) {
       return;
     }
+    this.useMaptilerLayer();
 
     this.currentMapStyle = this.mapStyles[i];
     this.mtLayer.setStyle(this.currentMapStyle.name);
