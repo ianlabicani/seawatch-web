@@ -1,7 +1,7 @@
 <div class="map-container shadow-lg p-2 rounded">
   <div class="d-flex flex-wrap gap-3 my-3">
     <div
-      class="thumbnail d-flex align-items-center gap-1 py-1 px-2 border rounded-pill shadow-sm"
+      class="thumbnail d-flex align-items-center gap-1 px-2 border rounded-pill shadow-sm"
       (click)="useLeafletLayer()"
       style="cursor: pointer; transition: transform 0.2s ease"
       [ngClass]="{
@@ -11,11 +11,10 @@
       <img
         src="https://leafletjs.com/docs/images/logo.png"
         style="cursor: pointer; transition: transform 0.2s ease"
-        class="thumbnail d-flex align-items-center gap-1 py-1 px-2 border rounded-pill shadow-sm"
+        class="thumbnail d-flex align-items-center gap-1 px-2 border rounded-pill shadow-sm"
         alt="leaflet logo"
-        width="40px"
+        width="130px"
       />
-      <span class="text-capitalize fw-semibold text-dark"> Leaflet </span>
     </div>
 
     @for (mapStyle of mapStyles; track $index) {
