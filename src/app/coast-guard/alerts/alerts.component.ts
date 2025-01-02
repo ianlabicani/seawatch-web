@@ -29,9 +29,6 @@ import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './alerts.component.scss',
 })
 export class AlertsComponent {
-  exportFilteredAlerts() {
-    console.log(this.exportForm.getRawValue());
-  }
   private destroyRef = inject(DestroyRef);
   private alertService = inject(AlertService);
   private exportPdfService = inject(ExportPdfService);
@@ -87,10 +84,6 @@ export class AlertsComponent {
       this.exportError.set('Start and end dates are required.');
       return;
     }
-
-    console.log(new Date(start));
-
-    console.log(start);
 
     const columns: (keyof IAlert)[] = [
       'id',

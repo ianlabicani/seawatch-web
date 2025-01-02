@@ -10,34 +10,45 @@ import { Firestore } from '@angular/fire/firestore';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { TABLE_PAGINATION } from '../../shared/constants';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ITracking } from '../../shared/models';
+import { IAlert, ITracking } from '../../shared/models';
 import { DatePipe } from '@angular/common';
 import { MapComponent } from '../../shared/components/map/map.component';
 import { TrackingService } from '../../core/services/tracking.service';
 import { RouterLink } from '@angular/router';
+import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ExportPdfService } from '../../core/services/export-pdf.service';
 
 @Component({
   selector: 'app-trackings',
-  imports: [NgxPaginationModule, DatePipe, MapComponent, RouterLink],
+  imports: [
+    NgxPaginationModule,
+    DatePipe,
+    MapComponent,
+    RouterLink,
+    ReactiveFormsModule,
+  ],
   templateUrl: './trackings.component.html',
   styleUrl: './trackings.component.scss',
 })
 export class TrackingsComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
-
+  private exportPdfService = inject(ExportPdfService);
+  private fb = inject(FormBuilder);
   trackingService = inject(TrackingService);
 
   trackingsSignal = signal<ITracking[]>([]);
   isLoaded = signal<boolean>(false);
-
   itemsPerPage = TABLE_PAGINATION.ITEMS_PER_PAGE;
   currentPage = TABLE_PAGINATION.PAGE;
-
   mapRefSig = viewChild.required<MapComponent>('appMap');
-
   polylineMarkers: Map<string, any> = new Map();
   endpointMarkers: Map<string, any> = new Map();
   startpointMarkers: Map<string, any> = new Map();
+  exportForm = this.fb.nonNullable.group({
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null),
+  });
+  exportError = signal<string | null>(null);
 
   ngOnInit(): void {
     this.trackingService
@@ -113,5 +124,43 @@ export class TrackingsComponent implements OnInit {
           this.startpointMarkers.set(element.id, startMarker);
         }
       });
+  }
+
+  async exportToPDF() {
+    const { start, end } = this.exportForm.getRawValue();
+
+    if (!start || !end) {
+      this.exportError.set('Start and end dates are required.');
+      return;
+    }
+
+    const columns: (keyof ITracking)[] = [
+      'id',
+      'username',
+      'onGoing',
+      'tracks',
+      'createdAt',
+      'updatedAt',
+    ];
+
+    try {
+      await this.exportPdfService.exportToPDF(
+        'trackings',
+        new Date(start),
+        new Date(end),
+        columns,
+        'createdAt',
+        (t: ITracking) => [
+          t.id,
+          t.username || 'No Name',
+          t.onGoing ? 'Yes' : 'No',
+          t.tracks.length,
+          t.createdAt.toDate().toLocaleString(),
+          t.updatedAt.toDate().toLocaleString(),
+        ]
+      );
+    } catch (error: any) {
+      this.exportError.set(error.message);
+    }
   }
 }
