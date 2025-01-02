@@ -5,6 +5,7 @@ export interface ITracking {
   uid: string;
   username: string;
   tracks: GeoPoint[];
+  onGoing: boolean;
   createdAt: Timestamp;
   updatedAt: Timestamp;
 }
