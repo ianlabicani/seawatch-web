@@ -45,6 +45,17 @@ export class AlertsComponent {
               element.geoPoint.latitude,
               element.geoPoint.longitude
             )
+            .bindPopup(
+              `
+                Username:<strong> ${element.username}</strong> <br>
+                Alert ID: ${element.id} <br>
+                Reported At: 
+                <strong>
+                ${new Date(element.createdAt.seconds * 1000).toLocaleString()}
+                </strong> 
+                 <br>
+                 `
+            )
             .addTo(this.mapRefSig().map);
         }
       });
