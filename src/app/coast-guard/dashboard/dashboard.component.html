@@ -1,1 +1,18 @@
-<p>coast guard dashboard works!</p>
+<div class="container mt-4">
+  <h1 class="display-4">Dashboard</h1>
+
+  <!-- Charts Container -->
+  <div class="row mt-4">
+    <!-- Alerts Chart -->
+    <div class="col-md-6 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Alerts</h5>
+          <canvas id="alertsChart">
+            {{ alertsChart }}
+          </canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
