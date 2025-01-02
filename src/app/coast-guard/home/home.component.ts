@@ -16,6 +16,7 @@ import {
   Firestore,
 } from '@angular/fire/firestore';
 import { IAlert, ITracking } from '../../shared/models';
+import { TrackingService } from '../../core/services/tracking.service';
 
 @Component({
   selector: 'app-home',
@@ -25,7 +26,7 @@ import { IAlert, ITracking } from '../../shared/models';
 })
 export class HomeComponent implements OnInit {
   private firestore = inject(Firestore);
-
+  private trackingService = inject(TrackingService);
   destroyRef = inject(DestroyRef);
 
   mapRef = viewChild.required<MapComponent>('appMap');
@@ -36,17 +37,13 @@ export class HomeComponent implements OnInit {
   startpointMarkers: Map<string, any> = new Map();
 
   ngOnInit(): void {
-    collectionChanges(
-      query(
-        collection(this.firestore, 'trackings'),
-        where('onGoing', '==', true)
-      )
-    ).subscribe((changes: any) => {
+    this.trackingService.getChanges().subscribe((changes: any) => {
       changes.forEach((change: any) => {
         const adventure = {
           ...change.doc.data(),
           id: change.doc.id,
         } as ITracking;
+        const polylineColor = this.mapRef().getPolylineColor(adventure.id);
 
         if (change.type === 'added') {
           const trackPoints: { latitude: number; longitude: number }[] =
@@ -55,7 +52,11 @@ export class HomeComponent implements OnInit {
               longitude: track.longitude,
             }));
           const polyline = this.mapRef()
-            .addPolyLine(trackPoints)
+            .addPolyLine(trackPoints, {
+              color: polylineColor, // Use the unique color
+              weight: 4,
+              opacity: 0.8,
+            })
             .addTo(this.mapRef().map);
           this.polylineMarkers.set(adventure.id, polyline);
           const endPoint = trackPoints[trackPoints.length - 1];
@@ -131,7 +132,10 @@ export class HomeComponent implements OnInit {
           this.polylineMarkers.delete(adventure.id);
           const endMarker = this.endpointMarkers.get(adventure.id);
           endMarker.removeFrom(this.mapRef().map!);
+          const startMarker = this.startpointMarkers.get(adventure.id);
+          startMarker.removeFrom(this.mapRef().map!);
           this.endpointMarkers.delete(adventure.id);
+          this.startpointMarkers.delete(adventure.id);
         }
       });
     });
