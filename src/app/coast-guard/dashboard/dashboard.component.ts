@@ -11,6 +11,7 @@ import { AlertService } from '../../core/services/alert.service';
 import { ReportService } from '../../core/services/report.service';
 import { TrackingService } from '../../core/services/tracking.service';
 import { Chart, registerables } from 'chart.js';
+import { TrackingsChartComponent } from '../trackings/shared/trackings-chart/trackings-chart.component';
 
 Chart.register(...registerables);
 const Utils = {
@@ -27,7 +28,7 @@ const Utils = {
 
 @Component({
   selector: 'app-dashboard',
-  imports: [],
+  imports: [TrackingsChartComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })

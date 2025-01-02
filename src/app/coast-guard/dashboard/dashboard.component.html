@@ -4,13 +4,33 @@
   <!-- Charts Container -->
   <div class="row mt-4">
     <!-- Alerts Chart -->
-    <div class="col-md-6 mb-4">
+    <div class="col-6 mb-4">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Alerts</h5>
           <canvas id="alertsChart">
             {{ alertsChart }}
           </canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resolutions Chart -->
+    <div class="col-6 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Resolutions</h5>
+          <canvas id="resolutionsChart">
+            {{ resolutionsChart }}
+          </canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Trackings</h5>
+          <app-trackings-chart></app-trackings-chart>
         </div>
       </div>
     </div>
