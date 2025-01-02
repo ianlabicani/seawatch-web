@@ -5,7 +5,13 @@ import {
   signInWithEmailAndPassword,
   user,
 } from '@angular/fire/auth';
-import { getDoc, doc, Firestore, setDoc } from '@angular/fire/firestore';
+import {
+  getDoc,
+  doc,
+  Firestore,
+  setDoc,
+  Timestamp,
+} from '@angular/fire/firestore';
 import { switchMap, from, map, of } from 'rxjs';
 
 export interface IUserStorage {
@@ -26,8 +32,8 @@ export interface IUserAuth {
   address?: string;
   isActive: boolean;
   lastLogin?: Date;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
 }
 
 @Injectable({

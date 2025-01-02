@@ -4,7 +4,7 @@ import {
   createUserWithEmailAndPassword,
   updateCurrentUser,
 } from '@angular/fire/auth';
-import { doc, Firestore, setDoc } from '@angular/fire/firestore';
+import { doc, Firestore, setDoc, Timestamp } from '@angular/fire/firestore';
 import {
   FormArray,
   FormBuilder,
@@ -40,8 +40,8 @@ export class UsersCreateComponent {
     emergencyContact: this.fb.array([]),
     address: [''],
     lastLogin: [null],
-    createdAt: [Date.now(), Validators.required],
-    updatedAt: [Date.now(), Validators.required],
+    createdAt: [Timestamp.now(), Validators.required],
+    updatedAt: [Timestamp.now(), Validators.required],
   });
 
   async onSubmit() {
