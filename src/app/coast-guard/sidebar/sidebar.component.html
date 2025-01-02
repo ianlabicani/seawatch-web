@@ -58,7 +58,9 @@
             routerLinkActive="active bg-primary-subtle "
             class="nav-link"
           >
-            Alerts
+            @let alertCountData = alertCount(); @if (alertCountData) {
+            <span class="badge bg-danger ms-2">{{ alertCountData }}</span>
+            } Alerts
           </a>
         </li>
 

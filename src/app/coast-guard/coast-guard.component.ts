@@ -5,8 +5,8 @@ import { Auth } from '@angular/fire/auth';
 import { TrackingService } from '../core/services/tracking.service';
 import { AlertService } from '../core/services/alert.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ReportService } from '../core/services/report.service';
-import { UserService } from '../core/services/user.service';
+import { tap } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-coast-guard',
@@ -18,8 +18,6 @@ export class CoastGuardComponent {
   auth = inject(Auth);
   private trackingService = inject(TrackingService);
   private alertService = inject(AlertService);
-  private reportService = inject(ReportService);
-  private userService = inject(UserService);
   destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
@@ -29,7 +27,22 @@ export class CoastGuardComponent {
       .subscribe();
     this.alertService
       .getAll()
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        tap((alerts) => {
+          const hasUnresolvedAlert = alerts.some((alert) => !alert.isResolved);
+          console.log('hasUnresolvedAlert', hasUnresolvedAlert);
+
+          if (hasUnresolvedAlert) {
+            Swal.fire({
+              title: 'Alert',
+              text: 'There is an unresolved alert.',
+              icon: 'warning',
+              confirmButtonText: 'Ok',
+            });
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
       .subscribe();
   }
 }

@@ -2,6 +2,7 @@ import {
   Component,
   DestroyRef,
   inject,
+  OnInit,
   signal,
   viewChild,
 } from '@angular/core';
@@ -28,7 +29,7 @@ import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
   templateUrl: './alerts.component.html',
   styleUrl: './alerts.component.scss',
 })
-export class AlertsComponent {
+export class AlertsComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   private alertService = inject(AlertService);
   private exportPdfService = inject(ExportPdfService);
