@@ -1,7 +1,9 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   Input,
+  OnDestroy,
   OnInit,
   signal,
   ViewChild,
@@ -19,7 +21,10 @@ import { NgClass } from '@angular/common';
   templateUrl: './map.component.html',
   styleUrl: './map.component.scss',
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
+  ngAfterViewInit(): void {
+    this.initializeMap();
+  }
   @ViewChild('map', { static: true }) mapRef!: ElementRef;
   mtLayer?: MaptilerLayer;
   osmLayer?: L.TileLayer; // To store OpenStreetMap layer
@@ -67,9 +72,7 @@ export class MapComponent implements OnInit {
   ];
   currentMapStyle: { name: string; url: string } | null = null;
 
-  ngOnInit(): void {
-    this.initializeMap();
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     if (this.map) {
@@ -108,19 +111,6 @@ export class MapComponent implements OnInit {
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }
     ).addTo(this.map);
-  }
-
-  useMaptilerLayer(): void {
-    // Remove OpenStreetMap layer if it's active
-    if (this.osmLayer && this.map.hasLayer(this.osmLayer)) {
-      this.map.removeLayer(this.osmLayer);
-    }
-    this.isMapTilerActive.set(true);
-
-    // Add MapTiler layer
-    this.mtLayer = new MaptilerLayer({
-      apiKey: 'bZpmItn2cuWjeIdpgbH5',
-    }).addTo(this.map);
   }
 
   //TODO: add start point markers
@@ -164,15 +154,21 @@ export class MapComponent implements OnInit {
     return L.marker([latitude, longitude], {
       icon: L.icon({
         iconUrl: 'icons/alert-icon-gps.png',
-        iconSize: [40, 40],
+        iconSize: [45, 45],
         iconAnchor: [20, 40],
         popupAnchor: [-1, -35],
       }),
     });
   }
 
-  addPolyLine(tracks: { latitude: number; longitude: number }[]) {
-    return L.polyline(tracks.map((t) => [t.latitude, t.longitude]));
+  addPolyLine(
+    tracks: { latitude: number; longitude: number }[],
+    options?: L.PolylineOptions
+  ) {
+    return L.polyline(
+      tracks.map((t) => [t.latitude, t.longitude]),
+      options
+    );
   }
 
   onChangeMapStyle(i: number, isLeaflet: boolean = false) {
@@ -208,5 +204,33 @@ export class MapComponent implements OnInit {
 
     this.currentMapStyle = this.mapStyles[i];
     this.mtLayer.setStyle(this.currentMapStyle.name);
+  }
+
+  getPolylineColor(adventureId: string): string {
+    // Use a hash function to generate a unique color based on the ID
+    const colors = [
+      '#FF5733', // Red
+      '#33FF57', // Green
+      '#3357FF', // Blue
+      '#F1C40F', // Yellow
+      '#8E44AD', // Purple
+      '#16A085', // Teal
+      '#E74C3C', // Coral
+    ];
+
+    // Generate a unique index based on the adventure ID
+    const index = this.hashCode(adventureId) % colors.length;
+
+    return colors[index];
+  }
+
+  private hashCode(str: string): number {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = (hash << 5) - hash + char;
+      hash |= 0; // Convert to 32-bit integer
+    }
+    return Math.abs(hash); // Return positive hash
   }
 }
