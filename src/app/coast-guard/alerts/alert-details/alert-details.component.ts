@@ -101,6 +101,29 @@ export class AlertDetailsComponent implements OnInit {
       )
       .subscribe((a) => {
         this.alertSig.set(a);
+        const tracking = a.tracking;
+        const startPoint = tracking.tracks[0];
+        const startMarker = this.mapRefSig()
+          .addStartPointMarker(startPoint.latitude, startPoint.longitude)
+          .bindPopup(
+            `Username:<strong> ${tracking.username}</strong> <br>
+                Adventure ID: ${tracking.id} <br>
+                Start Date: ${new Date(
+                  tracking.createdAt.seconds * 1000
+                ).toLocaleString()} <br>
+                End Date: ${
+                  tracking.updatedAt
+                    ? new Date(
+                        tracking.updatedAt.seconds * 1000
+                      ).toLocaleString()
+                    : 'Ongoing'
+                } <br>
+                Tracks Count: ${tracking.tracks.length} <br>
+                Start Location: ${startPoint.latitude}, ${startPoint.longitude}
+              `
+          )
+          .addTo(this.mapRefSig().map!);
+
         this.mapRefSig()
           .addAlertMarker(a.geoPoint.latitude, a.geoPoint.longitude)
           .bindPopup(

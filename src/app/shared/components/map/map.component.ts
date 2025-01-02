@@ -144,7 +144,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       icon: L.icon({
         iconUrl: 'icons/start-point.png',
         iconSize: [40, 40],
-        iconAnchor: [20, 40],
+        iconAnchor: [23, 43],
         popupAnchor: [-1, -35],
       }),
     });

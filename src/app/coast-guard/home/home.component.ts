@@ -43,6 +43,7 @@ export class HomeComponent implements OnInit {
           ...change.doc.data(),
           id: change.doc.id,
         } as ITracking;
+
         const polylineColor = this.mapRef().getPolylineColor(adventure.id);
 
         if (change.type === 'added') {
