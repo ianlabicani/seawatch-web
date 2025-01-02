@@ -120,7 +120,6 @@ export class MapComponent implements OnInit {
     // Add MapTiler layer
     this.mtLayer = new MaptilerLayer({
       apiKey: 'bZpmItn2cuWjeIdpgbH5',
-      style: this.currentMapStyle?.name,
     }).addTo(this.map);
   }
 
@@ -165,11 +164,36 @@ export class MapComponent implements OnInit {
     return L.polyline(tracks.map((t) => [t.latitude, t.longitude]));
   }
 
-  onChangeMapStyle(i: number) {
+  onChangeMapStyle(i: number, isLeaflet: boolean = false) {
+    if (this.osmLayer && this.map.hasLayer(this.osmLayer)) {
+      this.map.removeLayer(this.osmLayer);
+    }
+
+    if (this.mtLayer && this.map.hasLayer(this.mtLayer)) {
+      this.map.removeLayer(this.mtLayer);
+      this.currentMapStyle = null;
+    }
+    if (isLeaflet) {
+      this.isMapTilerActive.set(false);
+      this.osmLayer = L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }
+      ).addTo(this.map);
+      return;
+    }
+
     if (this.currentMapStyle === this.mapStyles[i]) {
       return;
     }
-    this.useMaptilerLayer();
+
+    this.isMapTilerActive.set(true);
+    this.mtLayer = new MaptilerLayer({
+      apiKey: 'bZpmItn2cuWjeIdpgbH5',
+      style: this.currentMapStyle?.name,
+    }).addTo(this.map);
 
     this.currentMapStyle = this.mapStyles[i];
     this.mtLayer.setStyle(this.currentMapStyle.name);

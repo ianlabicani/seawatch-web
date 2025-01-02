@@ -2,7 +2,7 @@
   <div class="d-flex flex-wrap gap-3 my-3">
     <div
       class="thumbnail d-flex align-items-center gap-1 px-2 border rounded-pill shadow-sm"
-      (click)="useLeafletLayer()"
+      (click)="onChangeMapStyle(0, true)"
       style="cursor: pointer; transition: transform 0.2s ease"
       [ngClass]="{
         'border-primary bg-info-subtle shadow-lg': !isMapTilerActive()
