@@ -20,10 +20,8 @@ export const routes: Routes = [
   },
   {
     path: 'trackings',
-    loadComponent: () =>
-      import('./trackings/trackings.component').then(
-        (m) => m.TrackingsComponent
-      ),
+    loadChildren: () =>
+      import('./trackings/trackings.routes').then((m) => m.routes),
   },
   {
     path: 'users',

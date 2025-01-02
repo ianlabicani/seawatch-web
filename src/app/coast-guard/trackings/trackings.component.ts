@@ -14,10 +14,11 @@ import { ITracking } from '../../shared/models';
 import { DatePipe } from '@angular/common';
 import { MapComponent } from '../../shared/components/map/map.component';
 import { TrackingService } from '../../core/services/tracking.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-trackings',
-  imports: [NgxPaginationModule, DatePipe, MapComponent],
+  imports: [NgxPaginationModule, DatePipe, MapComponent, RouterLink],
   templateUrl: './trackings.component.html',
   styleUrl: './trackings.component.scss',
 })
