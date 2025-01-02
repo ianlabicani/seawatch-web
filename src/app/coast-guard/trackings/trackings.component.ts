@@ -22,7 +22,6 @@ import { TrackingService } from '../../core/services/tracking.service';
   styleUrl: './trackings.component.scss',
 })
 export class TrackingsComponent implements OnInit {
-  private firestore = inject(Firestore);
   private destroyRef = inject(DestroyRef);
 
   trackingService = inject(TrackingService);
@@ -48,13 +47,19 @@ export class TrackingsComponent implements OnInit {
         this.trackingsSignal.set(trackings);
         for (let track = 0; track < trackings.length; track++) {
           const element = trackings[track];
+          const polylineColor = this.mapRefSig().getPolylineColor(element.id);
+
           const trackPoints: { latitude: number; longitude: number }[] =
             element.tracks.map((track: any) => ({
               latitude: track.latitude,
               longitude: track.longitude,
             }));
           const polyline = this.mapRefSig()
-            .addPolyLine(trackPoints)
+            .addPolyLine(trackPoints, {
+              color: polylineColor, // Use the unique color
+              weight: 4,
+              opacity: 0.8,
+            })
             .addTo(this.mapRefSig().map);
           this.polylineMarkers.set(element.id, polyline);
           const startPoint = trackPoints[0];
@@ -79,6 +84,7 @@ export class TrackingsComponent implements OnInit {
               `
             )
             .addTo(this.mapRefSig().map!);
+          this.startpointMarkers.set(element.id, startMarker);
           const endPoint = trackPoints[trackPoints.length - 1];
           const endMarker = this.mapRefSig()
             .addEndPointMarker(endPoint.latitude, endPoint.longitude)
@@ -103,6 +109,7 @@ export class TrackingsComponent implements OnInit {
             .addTo(this.mapRefSig().map!);
 
           this.endpointMarkers.set(element.id, endMarker);
+          this.startpointMarkers.set(element.id, startMarker);
         }
       });
   }
