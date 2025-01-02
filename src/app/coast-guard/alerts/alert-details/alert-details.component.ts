@@ -103,6 +103,18 @@ export class AlertDetailsComponent implements OnInit {
         this.alertSig.set(a);
         this.mapRefSig()
           .addAlertMarker(a.geoPoint.latitude, a.geoPoint.longitude)
+          .bindPopup(
+            `
+                Username:<strong> ${a.username}</strong> <br>
+                Alert ID: ${a.id} <br>
+                Reported At: 
+                <strong>
+                ${new Date(a.createdAt.seconds * 1000).toLocaleString()}
+                </strong> 
+                 <br>
+                 `
+          )
+
           .addTo(this.mapRefSig().map);
         // add tracks
         const trackPoints: { latitude: number; longitude: number }[] =
