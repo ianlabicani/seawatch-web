@@ -92,4 +92,21 @@ export class TrackingsDetailsComponent implements OnInit {
         this.endpointMarkers.set(a.id, endMarker);
       });
   }
+
+  get durationMinutes(): number {
+    const trackingData = this.trackingSig();
+    if (!trackingData) {
+      return 0;
+    }
+
+    const createdAtMs =
+      trackingData.createdAt.seconds * 1000 +
+      trackingData.createdAt.nanoseconds / 1e6;
+
+    const updatedAtMs =
+      trackingData.updatedAt.seconds * 1000 +
+      trackingData.updatedAt.nanoseconds / 1e6;
+
+    return Math.floor((updatedAtMs - createdAtMs) / (1000 * 60));
+  }
 }
