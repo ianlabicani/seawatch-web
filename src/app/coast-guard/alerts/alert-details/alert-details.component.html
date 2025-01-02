@@ -65,8 +65,11 @@
   }
 
   <div class="my-2">
-    @if (alertData && alertData.isResolved) { @if (alertData.report) {
-    <app-reports-details [reportSig]="alertData.report"></app-reports-details>
+    @if (alertData) { @if (alertData.report) {
+
+    <div class="card shadow-sm p-3">
+      <app-reports-details [reportSig]="alertData.report"></app-reports-details>
+    </div>
 
     } @else { @if (isCreateReport()) {
     <a class="btn btn-warning" (click)="isCreateReport.set(false)"
