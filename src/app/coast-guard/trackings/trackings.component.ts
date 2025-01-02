@@ -37,6 +37,7 @@ export class TrackingsComponent implements OnInit {
 
   polylineMarkers: Map<string, any> = new Map();
   endpointMarkers: Map<string, any> = new Map();
+  startpointMarkers: Map<string, any> = new Map();
 
   ngOnInit(): void {
     this.trackingService
@@ -56,6 +57,28 @@ export class TrackingsComponent implements OnInit {
             .addPolyLine(trackPoints)
             .addTo(this.mapRefSig().map);
           this.polylineMarkers.set(element.id, polyline);
+          const startPoint = trackPoints[0];
+          const startMarker = this.mapRefSig()
+            .addStartPointMarker(startPoint.latitude, startPoint.longitude)
+            .bindPopup(
+              `
+                Username:<strong> ${element.username}</strong> <br>
+                Adventure ID: ${element.id} <br>
+                Start Date At: ${new Date(
+                  element.createdAt.seconds * 1000
+                ).toLocaleString()} <br>
+                Last Update At: ${
+                  element.updatedAt
+                    ? new Date(
+                        element.updatedAt.seconds * 1000
+                      ).toLocaleString()
+                    : 'Ongoing'
+                } <br>
+                Tracks Count: ${element.tracks.length} <br>
+                Start Location: ${startPoint.latitude}, ${startPoint.longitude}
+              `
+            )
+            .addTo(this.mapRefSig().map!);
           const endPoint = trackPoints[trackPoints.length - 1];
           const endMarker = this.mapRefSig()
             .addEndPointMarker(endPoint.latitude, endPoint.longitude)
