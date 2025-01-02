@@ -55,7 +55,9 @@
         <th scope="row">{{ $index + 1 }}</th>
         <td>{{ alert.username }}</td>
         <td>{{ alert.geoPoint.latitude }} | {{ alert.geoPoint.longitude }}</td>
-        <td>{{ alert.isResolved ? "Yes" : "No" }}</td>
+        <td [ngClass]="{ 'bg-danger': !alert.isResolved }">
+          {{ alert.isResolved ? "Yes" : "No" }}
+        </td>
         <td>{{ alert.createdAt.toDate() | date : "medium" }}</td>
         <td>
           <div class="d-flex justify-content-around">

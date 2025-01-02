@@ -10,7 +10,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TABLE_PAGINATION } from '../../shared/constants';
 import { IAlert } from '../../shared/models';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MapComponent } from '../../shared/components/map/map.component';
 import { AlertService } from '../../core/services/alert.service';
@@ -25,6 +25,7 @@ import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
     RouterLink,
     MapComponent,
     ReactiveFormsModule,
+    NgClass,
   ],
   templateUrl: './alerts.component.html',
   styleUrl: './alerts.component.scss',
