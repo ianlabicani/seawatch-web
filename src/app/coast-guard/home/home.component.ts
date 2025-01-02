@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit {
   alertMarkers: Map<string, any> = new Map();
   polylineMarkers: Map<string, any> = new Map();
   endpointMarkers: Map<string, any> = new Map();
+  startpointMarkers: Map<string, any> = new Map();
 
   ngOnInit(): void {
     collectionChanges(
@@ -58,6 +59,30 @@ export class HomeComponent implements OnInit {
             .addTo(this.mapRef().map);
           this.polylineMarkers.set(adventure.id, polyline);
           const endPoint = trackPoints[trackPoints.length - 1];
+          const startPoint = trackPoints[0];
+          const startMarker = this.mapRef()
+            .addStartPointMarker(startPoint.latitude, startPoint.longitude)
+            .bindPopup(
+              `Username:<strong> ${adventure.username}</strong> <br>
+                Adventure ID: ${adventure.id} <br>
+                Start Date: ${new Date(
+                  adventure.createdAt.seconds * 1000
+                ).toLocaleString()} <br>
+                End Date: ${
+                  adventure.updatedAt
+                    ? new Date(
+                        adventure.updatedAt.seconds * 1000
+                      ).toLocaleString()
+                    : 'Ongoing'
+                } <br>
+                Tracks Count: ${adventure.tracks.length} <br>
+                Start Location: ${startPoint.latitude}, ${startPoint.longitude}
+              `
+            )
+            .addTo(this.mapRef().map!);
+
+          this.startpointMarkers.set(adventure.id, startMarker);
+
           const endMarker = this.mapRef()
             .addEndPointMarker(endPoint.latitude, endPoint.longitude)
             .bindPopup(

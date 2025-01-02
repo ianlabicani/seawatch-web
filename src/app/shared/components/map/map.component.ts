@@ -149,6 +149,17 @@ export class MapComponent implements OnInit {
     });
   }
 
+  addStartPointMarker(latitude: number, longitude: number) {
+    return L.marker([latitude, longitude], {
+      icon: L.icon({
+        iconUrl: 'icons/start-point.png',
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
+        popupAnchor: [-1, -35],
+      }),
+    });
+  }
+
   addAlertMarker(latitude: number, longitude: number) {
     return L.marker([latitude, longitude], {
       icon: L.icon({
