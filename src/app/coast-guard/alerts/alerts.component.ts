@@ -1,21 +1,21 @@
-import {
-  Component,
-  DestroyRef,
-  inject,
-  OnInit,
-  signal,
-  viewChild,
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, inject, OnInit, signal, viewChild } from '@angular/core';
 import { TABLE_PAGINATION } from '../../shared/constants';
 import { IAlert } from '../../shared/models';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DatePipe, NgClass } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MapComponent } from '../../shared/components/map/map.component';
-import { AlertService } from '../../core/services/alert.service';
 import { ExportPdfService } from '../../core/services/export-pdf.service';
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  getDoc,
+  doc,
+  Firestore,
+  collection,
+  getDocs,
+} from '@angular/fire/firestore';
+import { from } from 'rxjs';
+import { IUserAuth } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-coast-guard-alerts',
@@ -31,8 +31,7 @@ import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './alerts.component.scss',
 })
 export class AlertsComponent implements OnInit {
-  private destroyRef = inject(DestroyRef);
-  private alertService = inject(AlertService);
+  firestore = inject(Firestore);
   private exportPdfService = inject(ExportPdfService);
   private fb = inject(FormBuilder);
 
@@ -50,33 +49,31 @@ export class AlertsComponent implements OnInit {
   exportError = signal<string | null>(null);
 
   ngOnInit(): void {
-    this.alertService
-      .getAll()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((alerts) => {
-        this.isLoaded.set(true);
-        this.alertsSig.set(alerts);
-        for (let a = 0; a < alerts.length; a++) {
-          const element = alerts[a];
-          this.mapRefSig()
-            .addAlertMarker(
-              element.geoPoint.latitude,
-              element.geoPoint.longitude
-            )
-            .bindPopup(
-              `
-                Username:<strong> ${element.username}</strong> <br>
-                Alert ID: ${element.id} <br>
-                Reported At: 
-                <strong>
-                ${new Date(element.createdAt.seconds * 1000).toLocaleString()}
-                </strong> 
-                 <br>
-                 `
-            )
-            .addTo(this.mapRefSig().map);
-        }
-      });
+    from(this.getAllAlerts()).subscribe((alerts) => {
+      this.isLoaded.set(true);
+      this.alertsSig.set(alerts);
+      this.addAlertsToMap(alerts);
+    });
+  }
+
+  async addAlertsToMap(alerts: IAlert[]) {
+    for (let i = 0; i < alerts.length; i++) {
+      const alert = alerts[i];
+
+      const userDoc = await getDoc(doc(this.firestore, 'users', alert.uid));
+      const user = { ...userDoc.data(), id: userDoc.id } as IUserAuth;
+      this.mapRefSig().addAlertMarker(alert, user).addTo(this.mapRefSig().map);
+    }
+  }
+
+  async getAllAlerts() {
+    const alertsSnapshot = await getDocs(collection(this.firestore, 'alerts'));
+    const alerts: IAlert[] = [];
+    alertsSnapshot.forEach((doc) => {
+      const alert = { ...doc.data(), id: doc.id } as IAlert;
+      alerts.push(alert);
+    });
+    return alerts;
   }
 
   async exportToPDF() {
