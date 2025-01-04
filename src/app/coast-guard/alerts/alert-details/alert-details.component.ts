@@ -10,23 +10,18 @@ import {
 import {
   addDoc,
   collection,
-  collectionData,
   doc,
-  docData,
   Firestore,
   getDoc,
-  query,
   Timestamp,
   updateDoc,
-  where,
 } from '@angular/fire/firestore';
 
-import { IAlert, IReport, ITracking } from '../../../shared/models';
+import { IAlert, ITracking } from '../../../shared/models';
 import { DatePipe, JsonPipe } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 import { MapComponent } from '../../../shared/components/map/map.component';
-import { combineLatest, from, map, switchMap } from 'rxjs';
+import { from } from 'rxjs';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ReportsDetailsComponent } from '../../reports/reports-details/reports-details.component';
 import { IUserAuth } from '../../../auth/auth.service';
