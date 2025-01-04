@@ -6,10 +6,10 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { doc, docData, Firestore } from '@angular/fire/firestore';
+import { doc, Firestore, getDoc } from '@angular/fire/firestore';
 import { MapComponent } from '../../../shared/components/map/map.component';
 import { ITracking } from '../../../shared/models';
-import { map } from 'rxjs';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-trackings-details',
@@ -23,74 +23,42 @@ export class TrackingsDetailsComponent implements OnInit {
   trackingSig = signal<ITracking | null>(null);
   mapRefSig = viewChild.required<MapComponent>('appMap');
   polylineMarkers: Map<string, any> = new Map();
-  alertMarkers: Map<string, any> = new Map();
-  endpointMarkers: Map<string, any> = new Map();
-  startpointMarkers: Map<string, any> = new Map();
 
   ngOnInit(): void {
-    docData(doc(this.firestore, `trackings/${this.id()}`), { idField: 'id' })
-      .pipe(map((a) => a as ITracking))
-      .subscribe((a) => {
-        this.trackingSig.set(a);
+    from(this.getTracking(this.id())).subscribe((tracking) => {
+      this.trackingSig.set(tracking);
+      this.addTrackingToMap(tracking);
+    });
+  }
 
-        const trackPoints: { latitude: number; longitude: number }[] =
-          a.tracks.map((track: any) => ({
-            latitude: track.latitude,
-            longitude: track.longitude,
-          }));
-        const polyline = this.mapRefSig()
-          .addPolyLine(trackPoints, {
-            color: 'blue', // Use the unique color
-            weight: 4,
-            opacity: 0.8,
-          })
-          .addTo(this.mapRefSig().map);
-        this.polylineMarkers.set(a.id, polyline);
-        const endPoint = trackPoints[trackPoints.length - 1];
-        const startPoint = trackPoints[0];
-        const startMarker = this.mapRefSig()
-          .addStartPointMarker(startPoint.latitude, startPoint.longitude)
-          .bindPopup(
-            `Username:<strong> ${a.username}</strong> <br>
-                a ID: ${a.id} <br>
-                Start Date: ${new Date(
-                  a.createdAt.seconds * 1000
-                ).toLocaleString()} <br>
-                End Date: ${
-                  a.updatedAt
-                    ? new Date(a.updatedAt.seconds * 1000).toLocaleString()
-                    : 'Ongoing'
-                } <br>
-                Tracks Count: ${a.tracks.length} <br>
-                Start Location: ${startPoint.latitude}, ${startPoint.longitude}
-              `
-          )
-          .addTo(this.mapRefSig().map!);
+  async getTracking(id: string) {
+    const trackingDoc = await getDoc(doc(this.firestore, `trackings/${id}`));
+    return { ...trackingDoc.data(), id: trackingDoc.id } as ITracking;
+  }
 
-        this.startpointMarkers.set(a.id, startMarker);
+  addTrackingToMap(tracking: ITracking) {
+    const polylineColor = this.mapRefSig().getPolylineColor(tracking.id);
 
-        const endMarker = this.mapRefSig()
-          .addEndPointMarker(endPoint.latitude, endPoint.longitude)
-          .bindPopup(
-            `
-                Username:<strong> ${a.username}</strong> <br>
-                a ID: ${a.id} <br>
-                Start Date: ${new Date(
-                  a.createdAt.seconds * 1000
-                ).toLocaleString()} <br>
-                End Date: ${
-                  a.updatedAt
-                    ? new Date(a.updatedAt.seconds * 1000).toLocaleString()
-                    : 'Ongoing'
-                } <br>
-                Tracks Count: ${a.tracks.length} <br>
-                Current Location: ${endPoint.latitude}, ${endPoint.longitude}
-              `
-          )
-          .addTo(this.mapRefSig().map!);
+    const trackPoints: { latitude: number; longitude: number }[] =
+      tracking.tracks.map((track: any) => ({
+        latitude: track.latitude,
+        longitude: track.longitude,
+      }));
+    // startpoint
+    const startPoint = trackPoints[0];
+    this.mapRefSig().addStartPointMarker(tracking).addTo(this.mapRefSig().map!);
 
-        this.endpointMarkers.set(a.id, endMarker);
-      });
+    // polyline
+    this.mapRefSig()
+      .addPolyLine(trackPoints, {
+        color: polylineColor,
+        weight: 4,
+        opacity: 0.8,
+      })
+      .addTo(this.mapRefSig().map);
+
+    // endpoint
+    this.mapRefSig().addEndPointMarker(tracking).addTo(this.mapRefSig().map!);
   }
 
   get durationMinutes(): number {

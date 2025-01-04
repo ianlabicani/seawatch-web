@@ -14,6 +14,8 @@ import { MaptilerLayer } from '@maptiler/leaflet-maptilersdk';
 import L from 'leaflet';
 import { aparriMockBoundaries } from './aparri-mock-boundaries';
 import { NgClass } from '@angular/common';
+import { IAlert, ITracking } from '../../models';
+import { IUserAuth } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-map',
@@ -113,8 +115,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     ).addTo(this.map);
   }
 
-  //TODO: add start point markers
-
   addGeofencingPolygon(): void {
     L.geoJSON()
       .addData(aparriMockBoundaries as any)
@@ -128,29 +128,94 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       .addTo(this.map);
   }
 
-  addEndPointMarker(latitude: number, longitude: number) {
-    return L.marker([latitude, longitude], {
+  addEndPointMarker(tracking: ITracking) {
+    const endPoint = tracking.tracks[tracking.tracks.length - 1];
+    const startPoint = tracking.tracks[0];
+    return L.marker([endPoint.latitude, endPoint.longitude], {
       icon: L.icon({
         iconUrl: 'icons/sailing-boat-pin.png',
         iconSize: [40, 40],
         iconAnchor: [20, 40],
         popupAnchor: [-1, -35],
       }),
-    });
+    }).bindPopup(
+      `<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h4>Tracking End Point</h4>
+    </div>
+    <div class="card-body">
+      <p><strong>Username:</strong> <span>${tracking.username}</span></p>
+      <p><strong>Tracking ID:</strong> <span>${tracking.id}</span></p>
+            <p><strong>Tracks Count:</strong> <span>${
+              tracking.tracks.length
+            }</span></p>
+      <p><strong>Start Location:</strong> 
+        <span>${startPoint.latitude}, ${startPoint.longitude}</span>
+      </p>
+
+      <p><strong>Start Date:</strong> <span>${new Date(
+        tracking.createdAt.seconds * 1000
+      ).toLocaleString()}</span></p>
+      <p><strong>End Date:</strong> 
+        <span>
+          ${
+            tracking.updatedAt
+              ? new Date(tracking.updatedAt.seconds * 1000).toLocaleString()
+              : 'Ongoing'
+          }
+        </span>
+      </p>
+    </div>
+  </div>
+</div>
+`
+    );
   }
 
-  addStartPointMarker(latitude: number, longitude: number) {
-    return L.marker([latitude, longitude], {
+  addStartPointMarker(tracking: ITracking) {
+    const startPoint = tracking.tracks[0];
+
+    return L.marker([startPoint.latitude, startPoint.longitude], {
       icon: L.icon({
         iconUrl: 'icons/start-point.png',
         iconSize: [40, 40],
         iconAnchor: [23, 43],
         popupAnchor: [-1, -35],
       }),
-    });
+    }).bindPopup(
+      `
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <h4>Tracking Starting Point</h4>
+      </div>
+      <div class="card-body">
+        <p><strong>Username:</strong> ${tracking.username}</p>
+        <p><strong>Adventure ID:</strong> ${tracking.id}</p>
+        <p><strong>Tracks Count:</strong> ${tracking.tracks.length}</p>
+        <p><strong>Start Location:</strong> ${startPoint.latitude}, ${
+        startPoint.longitude
+      }</p>
+        <p><strong>Start Date:</strong> ${new Date(
+          tracking.createdAt.seconds * 1000
+        ).toLocaleString()}</p>
+        <p><strong>End Date:</strong> ${
+          tracking.updatedAt
+            ? new Date(tracking.updatedAt.seconds * 1000).toLocaleString()
+            : 'Ongoing'
+        }</p>
+      </div>
+    </div>
+  </div>
+`
+    );
   }
 
-  addAlertMarker(latitude: number, longitude: number) {
+  addAlertMarker(alert: IAlert, user: IUserAuth) {
+    const latitude = alert.geoPoint.latitude;
+    const longitude = alert.geoPoint.longitude;
+
     return L.marker([latitude, longitude], {
       icon: L.icon({
         iconUrl: 'icons/alert-icon-gps.png',
@@ -158,7 +223,27 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         iconAnchor: [20, 40],
         popupAnchor: [-1, -35],
       }),
-    });
+    }).bindPopup(
+      `
+        <div class="card">
+        <div class="card-header text-center bg-primary text-white">
+          <h5 class="card-title mb-0">Alert Details</h5>
+        </div>
+        <div class="card-body">
+          <p class="card-text">
+            <strong>Alert ID:</strong> ${alert.id}<br>
+            <strong>Username:</strong> ${user.username}<br>
+            <strong>User Contact:</strong> ${user.phoneNumber}<br>
+            <strong>Location:</strong> ${latitude}, ${longitude}<br>
+            <strong>Reported At:</strong> 
+            <span class="text-primary">
+              ${new Date(alert.createdAt.seconds * 1000).toLocaleString()}
+            </span>
+          </p>
+        </div>
+      </div>
+      `
+    );
   }
 
   addPolyLine(

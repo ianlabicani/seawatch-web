@@ -1,22 +1,22 @@
-import {
-  Component,
-  DestroyRef,
-  inject,
-  OnInit,
-  viewChild,
-} from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
 import { MapComponent } from '../../shared/components/map/map.component';
 // @ts-ignore
 import L from 'leaflet';
 import {
-  collectionChanges,
   collection,
   where,
   query,
   Firestore,
+  getDoc,
+  doc,
+  onSnapshot,
+  getCountFromServer,
 } from '@angular/fire/firestore';
 import { IAlert, ITracking } from '../../shared/models';
-import { TrackingService } from '../../core/services/tracking.service';
+import { IUserAuth } from '../../auth/auth.service';
+import { from } from 'rxjs';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -24,10 +24,9 @@ import { TrackingService } from '../../core/services/tracking.service';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   private firestore = inject(Firestore);
-  private trackingService = inject(TrackingService);
-  destroyRef = inject(DestroyRef);
+  private router = inject(Router);
 
   mapRef = viewChild.required<MapComponent>('appMap');
 
@@ -35,153 +34,156 @@ export class HomeComponent implements OnInit {
   polylineMarkers: Map<string, any> = new Map();
   endpointMarkers: Map<string, any> = new Map();
   startpointMarkers: Map<string, any> = new Map();
+  alertsUnsubscribe: any;
+  trackingsUnsubscribe: any;
 
   ngOnInit(): void {
-    this.trackingService.getChanges().subscribe((changes: any) => {
-      changes.forEach((change: any) => {
-        const adventure = {
+    this.listenToAlerts();
+    this.listenToTrackings();
+    from(this.isThereUnresolvedAlerts()).subscribe((isThereAlerts) => {
+      if (isThereAlerts) {
+        Swal.fire({
+          title: '🚨 Alert  🚨',
+          text: 'There is a new alert, check the alerts page',
+          icon: 'warning',
+        }).then(() => {
+          this.router.navigate(['/coast-guard/alerts']);
+        });
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.alertsUnsubscribe) {
+      this.alertsUnsubscribe();
+    }
+
+    if (this.trackingsUnsubscribe) {
+      this.trackingsUnsubscribe();
+    }
+  }
+
+  private listenToTrackings() {
+    const q = query(
+      collection(this.firestore, 'trackings'),
+      where('onGoing', '==', true)
+    );
+    this.trackingsUnsubscribe = onSnapshot(q, (snapshot) => {
+      snapshot.docChanges().forEach(async (change) => {
+        const tracking = {
           ...change.doc.data(),
           id: change.doc.id,
         } as ITracking;
 
-        const polylineColor = this.mapRef().getPolylineColor(adventure.id);
+        const polylineColor = this.mapRef().getPolylineColor(tracking.id);
 
         if (change.type === 'added') {
+          const userDoc = await getDoc(
+            doc(this.firestore, 'users', tracking.uid)
+          );
+          const user = { ...userDoc.data(), id: userDoc.id } as IUserAuth;
           const trackPoints: { latitude: number; longitude: number }[] =
-            adventure.tracks.map((track: any) => ({
+            tracking.tracks.map((track) => ({
               latitude: track.latitude,
               longitude: track.longitude,
             }));
+          // startpoint
+          const startPoint = trackPoints[0];
+          const startMarker = this.mapRef()
+            .addStartPointMarker(tracking)
+            .addTo(this.mapRef().map!);
+          this.startpointMarkers.set(tracking.id, startMarker);
+          //polyline
           const polyline = this.mapRef()
             .addPolyLine(trackPoints, {
-              color: polylineColor, // Use the unique color
+              color: 'red',
               weight: 4,
               opacity: 0.8,
             })
-            .addTo(this.mapRef().map);
-          this.polylineMarkers.set(adventure.id, polyline);
+            .addTo(this.mapRef().map!);
+          this.polylineMarkers.set(tracking.id, polyline);
+          //endpoint
           const endPoint = trackPoints[trackPoints.length - 1];
-          const startPoint = trackPoints[0];
-          const startMarker = this.mapRef()
-            .addStartPointMarker(startPoint.latitude, startPoint.longitude)
-            .bindPopup(
-              `Username:<strong> ${adventure.username}</strong> <br>
-                Adventure ID: ${adventure.id} <br>
-                Start Date: ${new Date(
-                  adventure.createdAt.seconds * 1000
-                ).toLocaleString()} <br>
-                End Date: ${
-                  adventure.updatedAt
-                    ? new Date(
-                        adventure.updatedAt.seconds * 1000
-                      ).toLocaleString()
-                    : 'Ongoing'
-                } <br>
-                Tracks Count: ${adventure.tracks.length} <br>
-                Start Location: ${startPoint.latitude}, ${startPoint.longitude}
-              `
-            )
-            .addTo(this.mapRef().map!);
-
-          this.startpointMarkers.set(adventure.id, startMarker);
-
           const endMarker = this.mapRef()
-            .addEndPointMarker(endPoint.latitude, endPoint.longitude)
-            .bindPopup(
-              `
-                Username:<strong> ${adventure.username}</strong> <br>
-                Adventure ID: ${adventure.id} <br>
-                Start Date: ${new Date(
-                  adventure.createdAt.seconds * 1000
-                ).toLocaleString()} <br>
-                End Date: ${
-                  adventure.updatedAt
-                    ? new Date(
-                        adventure.updatedAt.seconds * 1000
-                      ).toLocaleString()
-                    : 'Ongoing'
-                } <br>
-                Tracks Count: ${adventure.tracks.length} <br>
-                Current Location: ${endPoint.latitude}, ${endPoint.longitude}
-              `
-            )
+            .addEndPointMarker(tracking)
             .addTo(this.mapRef().map!);
-
-          this.endpointMarkers.set(adventure.id, endMarker);
+          this.endpointMarkers.set(tracking.id, endMarker);
         }
 
         if (change.type === 'modified') {
           const trackPoints: { latitude: number; longitude: number }[] =
-            adventure.tracks.map((track) => ({
+            tracking.tracks.map((track) => ({
               latitude: track.latitude,
               longitude: track.longitude,
             }));
-          const polyline = this.polylineMarkers.get(adventure.id);
+          // polyline
+          const polyline = this.polylineMarkers.get(tracking.id);
           polyline.setLatLngs(
             trackPoints.map((coord) =>
               L.latLng(coord.latitude, coord.longitude)
             )
           );
+          // endpoint
           const endPoint = trackPoints[trackPoints.length - 1];
-          const endMarker = this.endpointMarkers.get(adventure.id);
+          const endMarker = this.endpointMarkers.get(tracking.id);
           endMarker.setLatLng([endPoint.latitude, endPoint.longitude]);
         }
 
         if (change.type === 'removed') {
-          const polyline = this.polylineMarkers.get(adventure.id);
-          polyline.removeFrom(this.mapRef().map!);
-          this.polylineMarkers.delete(adventure.id);
-          const endMarker = this.endpointMarkers.get(adventure.id);
-          endMarker.removeFrom(this.mapRef().map!);
-          const startMarker = this.startpointMarkers.get(adventure.id);
+          // startpoint
+          const startMarker = this.startpointMarkers.get(tracking.id);
           startMarker.removeFrom(this.mapRef().map!);
-          this.endpointMarkers.delete(adventure.id);
-          this.startpointMarkers.delete(adventure.id);
+          this.startpointMarkers.delete(tracking.id);
+          // polyline
+          const polyline = this.polylineMarkers.get(tracking.id);
+          polyline.removeFrom(this.mapRef().map!);
+          // endpoint
+          this.polylineMarkers.delete(tracking.id);
+          const endMarker = this.endpointMarkers.get(tracking.id);
+          endMarker.removeFrom(this.mapRef().map!);
+          this.endpointMarkers.delete(tracking.id);
         }
       });
     });
+  }
 
-    collectionChanges(
-      query(
-        collection(this.firestore, 'alerts'),
-        where('isResolved', '==', false)
-      )
-    ).subscribe((changes: any) => {
-      changes.forEach((change: any) => {
+  private listenToAlerts() {
+    const q = query(
+      collection(this.firestore, 'alerts'),
+      where('isResolved', '==', false)
+    );
+    this.alertsUnsubscribe = onSnapshot(q, (snapshot) => {
+      snapshot.docChanges().forEach(async (change) => {
         const alert = {
           ...change.doc.data(),
           id: change.doc.id,
         } as IAlert;
+
         if (change.type === 'added') {
+          const userDoc = await getDoc(doc(this.firestore, 'users', alert.uid));
+          const user = { ...userDoc.data(), id: userDoc.id } as IUserAuth;
           const alertMarker = this.mapRef()
-            .addAlertMarker(alert.geoPoint.latitude, alert.geoPoint.longitude)
-            .bindPopup(
-              `
-                Username:<strong> ${alert.username}</strong> <br>
-                Alert ID: ${alert.id} <br>
-                Reported At: 
-                <strong>
-                ${new Date(alert.createdAt.seconds * 1000).toLocaleString()}
-                </strong> 
-                 <br>
-                 `
-            )
+            .addAlertMarker(alert, user)
             .addTo(this.mapRef().map!);
-          this.alertMarkers.set(change.doc.id, alertMarker);
+          this.alertMarkers.set(alert.id, alertMarker);
         }
-        if (change.type === 'modified') {
-          const alertMarker = this.alertMarkers.get(change.doc.id);
-          alertMarker.setLatLng([
-            alert.geoPoint.latitude,
-            alert.geoPoint.longitude,
-          ]);
-        }
+
         if (change.type === 'removed') {
-          const alertMarker = this.alertMarkers.get(change.doc.id);
+          const alertMarker = this.alertMarkers.get(alert.id);
           alertMarker.removeFrom(this.mapRef().map!);
-          this.alertMarkers.delete(change.doc.id);
+          this.alertMarkers.delete(alert.id);
         }
       });
     });
+  }
+
+  private async isThereUnresolvedAlerts() {
+    const snapshot = await getCountFromServer(
+      query(
+        collection(this.firestore, 'alerts'),
+        where('isResolved', '==', false)
+      )
+    );
+    return snapshot.data().count > 0;
   }
 }
