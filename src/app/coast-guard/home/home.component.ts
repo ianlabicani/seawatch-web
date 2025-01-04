@@ -47,8 +47,10 @@ export class HomeComponent implements OnInit, OnDestroy {
           text: 'There is a new alert, check the alerts page',
           icon: 'warning',
           showCancelButton: true,
-        }).then(() => {
-          this.router.navigate(['/coast-guard/alerts']);
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.router.navigate(['/coast-guard/alerts']);
+          }
         });
       }
     });
