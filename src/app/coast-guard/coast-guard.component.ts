@@ -27,22 +27,7 @@ export class CoastGuardComponent {
       .subscribe();
     this.alertService
       .getAll()
-      .pipe(
-        tap((alerts) => {
-          const hasUnresolvedAlert = alerts.some((alert) => !alert.isResolved);
-          console.log('hasUnresolvedAlert', hasUnresolvedAlert);
-
-          if (hasUnresolvedAlert) {
-            Swal.fire({
-              title: 'Alert',
-              text: 'There is an unresolved alert.',
-              icon: 'warning',
-              confirmButtonText: 'Ok',
-            });
-          }
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      )
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe();
   }
 }
