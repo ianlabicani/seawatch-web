@@ -1,5 +1,5 @@
-@let alertData = alertSig(); @let trackingData = trackingSig(); @let userData =
-userSig();
+@let alertData = alertSig(); @let userData = userSig(); @let reportData =
+reportSig();
 <div class="container mt-4">
   <h1 class="h4 mb-4">Alert Details</h1>
 
@@ -64,14 +64,45 @@ userSig();
   </div>
   }
 
-  <div class="my-2">
-    @if (alertData) { @if (alertData.report) {
+  <div>
+    @if (userData) {
+    <div class="card p-3 shadow-sm mt-4">
+      <h2 class="h6 mb-3">User Information</h2>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>UID:</strong> {{ userData.id }}</li>
+        <li class="list-group-item">
+          <strong>Username:</strong> {{ userData.username }}
+        </li>
+        <li class="list-group-item">
+          <strong>Email:</strong> {{ userData.email }}
+        </li>
+        <li class="list-group-item">
+          <strong>Phone:</strong> {{ userData.phoneNumber }}
+        </li>
+        <li class="list-group-item">
+          <strong>Role:</strong> {{ userData.role }}
+        </li>
+        <li class="list-group-item">
+          <strong>Created At:</strong>
+          {{ userData.createdAt.seconds | date : "medium" }}
+        </li>
+        <li class="list-group-item">
+          <strong>Updated At:</strong>
+          {{ userData.updatedAt.seconds | date : "medium" }}
+        </li>
+        <li class="list-group-item"><strong>ID:</strong> {{ userData.id }}</li>
+      </ul>
+    </div>
+    }
+  </div>
 
+  <div class="my-2">
+    @if (reportData) {
     <div class="card shadow-sm p-3">
-      <app-reports-details [reportSig]="alertData.report"></app-reports-details>
+      <app-reports-details [reportSig]="reportData"></app-reports-details>
     </div>
 
-    } @else { @if (isCreateReport()) {
+    } @else { @if (!isLoading()) { @if (isCreateReport()) {
     <a class="btn btn-warning" (click)="isCreateReport.set(false)"
       >Cancel Report</a
     >
@@ -79,7 +110,7 @@ userSig();
     <button class="btn btn-success" (click)="isCreateReport.set(true)">
       Create Report
     </button>
-    } @if (isCreateReport()) {
+    } } @if (isCreateReport()) {
     <div class="mt-3">
       <div class="container">
         <h2 class="mb-4">Create Report</h2>
@@ -173,13 +204,22 @@ userSig();
           </div>
 
           <!-- Submit Button -->
-          <button type="submit" class="btn btn-primary btn-lg d-block ms-auto">
-            Submit
+          <button
+            type="submit"
+            class="btn btn-primary btn-lg d-block ms-auto"
+            [disabled]="isSubmitting()"
+          >
+            @if (isSubmitting()) {
+            <div class="spinner-border text-light" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+
+            } @else { Submit }
           </button>
         </form>
       </div>
     </div>
-    } } }
+    } }
   </div>
 
   <div class="my-4">
