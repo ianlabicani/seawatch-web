@@ -1,24 +1,33 @@
-@let trackingData = trackingSig(); @if (trackingData !== null) {
+@let trackingData = trackingSig();@let userData = userSig(); @if (trackingData
+!== null) {
 <div class="card shadow-sm">
   <div class="card-header bg-primary text-white">
-    <h5 class="mb-0">User Information</h5>
+    <h5 class="mb-0">Tracking Information</h5>
   </div>
   <div class="card-body">
     <div class="row mb-3">
       <div class="col-md-6">
-        <p><strong>UID:</strong> G6RzdiNj9yIjLXUIOrWDVLGIJJyA</p>
+        <p><strong>UID:</strong> {{ trackingData.id }}</p>
         <p><strong>Username:</strong> user1</p>
-        <p><strong>tracck count:</strong>{{ trackingData.tracks.length }}</p>
+        <p><strong>track count:</strong>{{ trackingData.tracks.length }}</p>
         <p><strong>Duration:</strong> {{ durationMinutes }} minutes</p>
       </div>
       <div class="col-md-6">
         <p>
           <strong>Created At:</strong>
-          <span>2025-01-02 10:47:03</span>
+          <span>
+            {{
+              trackingData.createdAt.toDate() | date : "yyyy-MM-dd HH:mm:ss"
+            }}</span
+          >
         </p>
         <p>
           <strong>Updated At:</strong>
-          <span>2025-01-02 10:51:17</span>
+          <span>
+            {{
+              trackingData.updatedAt.toDate() | date : "yyyy-MM-dd HH:mm:ss"
+            }}</span
+          >
         </p>
       </div>
     </div>
@@ -27,6 +36,66 @@
       <span class="badge bg-secondary">Not Ongoing</span>
     </p>
   </div>
+</div>
+} @else if (isLoading()) {
+<div class="d-flex flex-column justify-content-center align-items-center mt-5">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Fetching Tracking Details...</span>
+  </div>
+  <p class="m-0">Fetching Tracking Details</p>
+</div>
+} @else if(trackingData === null && !isLoading()) {
+<div class="alert alert-danger mt-3" role="alert">
+  <h4 class="alert-heading">Tracking not found!</h4>
+  <p>
+    The tracking with the provided id does not exist. Please make sure the id is
+    correct.
+  </p>
+</div>
+} @if (userData) {
+<div class="card shadow-sm mt-3">
+  <div class="card-header bg-primary text-white">
+    <h5 class="mb-0">User Information</h5>
+  </div>
+  <div class="card-body">
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <p><strong>UID:</strong> {{ userData.id }}</p>
+        <p><strong>Username:</strong> {{ userData.username }}</p>
+        <p><strong>Email:</strong> {{ userData.email }}</p>
+        <p><strong>Phone:</strong> {{ userData.phoneNumber }}</p>
+      </div>
+      <div class="col-md-6">
+        <p>
+          <strong>Created At:</strong>
+          <span>{{ userData.createdAt }}</span>
+        </p>
+        <p>
+          <strong>Updated At:</strong>
+          <span>{{ userData.updatedAt }}</span>
+        </p>
+      </div>
+    </div>
+    <p>
+      <strong>Status:</strong>
+      <span class="badge bg-secondary">Not Ongoing</span>
+    </p>
+  </div>
+</div>
+} @else if (isLoading()) {
+<div class="d-flex flex-column justify-content-center align-items-center mt-5">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Fetching User Details...</span>
+  </div>
+  <p class="m-0">Fetching User Details</p>
+</div>
+} @else if(userData === null && !isLoading()) {
+<div class="alert alert-danger mt-3" role="alert">
+  <h4 class="alert-heading">User not found!</h4>
+  <p>
+    The user with the provided UID does not exist. Please make sure the UID is
+    correct.
+  </p>
 </div>
 }
 
